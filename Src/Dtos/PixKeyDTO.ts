@@ -1,4 +1,4 @@
-import {EnumPix} from "../Enums/EnumPix";
+import {EnumPix} from "@Enums/EnumPix";
 
 export interface PixKeyDTO {
     bankId: number;

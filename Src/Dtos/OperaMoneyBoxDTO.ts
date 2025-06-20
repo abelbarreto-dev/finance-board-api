@@ -1,4 +1,4 @@
-import {EnumFinance} from "../Enums/EnumFinance";
+import {EnumFinance} from "@Enums/EnumFinance";
 
 export interface OperaMoneyBoxDTO {
     moneyBoxId: number;

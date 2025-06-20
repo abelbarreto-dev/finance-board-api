@@ -1,4 +1,4 @@
-import {EnumBanks} from "../Enums/EnumBanks";
+import {EnumBanks} from "@Enums/EnumBanks";
 
 export interface BankDTO {
     name: EnumBanks;

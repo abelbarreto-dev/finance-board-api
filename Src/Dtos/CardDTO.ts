@@ -1,4 +1,4 @@
-import {EnumFlag} from "../Enums/EnumFlag";
+import {EnumFlag} from "@Enums/EnumFlag";
 
 export interface CardDTO {
     bankId: number;

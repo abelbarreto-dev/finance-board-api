@@ -1,4 +1,4 @@
-import {EnumFinancePlus} from "../Enums/EnumFinancePlus";
+import {EnumFinancePlus} from "@Enums/EnumFinancePlus";
 
 export interface OperaMoneyDTO {
     moneyId: number;

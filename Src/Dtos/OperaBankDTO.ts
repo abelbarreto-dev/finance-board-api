@@ -10,4 +10,5 @@ export interface OperaBankDTO {
     bankOperation: EnumFinancePlus;
     senderName: string;
     receiverName: string;
+    balanceValue: number;
 }

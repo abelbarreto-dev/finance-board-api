@@ -5,5 +5,5 @@ export interface BankDTO {
     userId: number;
     numbAccount: string;
     numbAgency: string;
-    balance: number;
+    balanceValue: number;
 }

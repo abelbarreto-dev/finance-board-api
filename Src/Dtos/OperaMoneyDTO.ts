@@ -3,5 +3,5 @@ import {EnumFinancePlus} from "@Enums/EnumFinancePlus";
 export interface OperaMoneyDTO {
     moneyId: number;
     typeTransfer: EnumFinancePlus;
-    value: number;
+    balanceValue: number;
 }

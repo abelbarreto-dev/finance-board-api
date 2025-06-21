@@ -1,4 +1,4 @@
-# finance-board-api
+# Finance Board Api
 Take care your finance by yourself. This project is being built as an API to manage everything need.
 
 The main stack used is TypeScript.

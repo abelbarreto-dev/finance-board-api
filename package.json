@@ -6,6 +6,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "prisma": "^6.10.1"
+    "prisma": "^6.10.1",
+    "ts-node": "^10.9.2"
   }
 }

@@ -6,4 +6,5 @@ export interface CardDTO {
     cardLimit: number;
     currentLimit: number;
     balanceValue: number;
+    reversal?: boolean;
 }

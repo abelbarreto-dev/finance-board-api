@@ -1,0 +1,264 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EnumBanks {
+  ITAU
+  BRADESCO
+  SANTANDER
+  CAIXA
+  HSBC
+  CITI
+  BCO
+  BANCO_DO_BRASIL @map("BANCO DO BRASIL")
+  NUBANK
+  INTER
+  WILLBANK
+  PICPAY
+  C6BANK
+  BTG_PACTUAL     @map("BTG PACTUAL")
+  JP_MORGAN       @map("JP MORGAN")
+}
+
+enum EnumFinance {
+  WITHDRAW
+  DEPOSIT
+}
+
+enum EnumFinancePlus {
+  WITHDRAW
+  DEPOSIT
+  PAYMENT
+}
+
+enum EnumFlag {
+  MASTERCARD
+  VISA
+  ELO
+  AMEX
+  DINERS
+  HIPERCARD
+}
+
+enum EnumOpState {
+  MYSELF
+  OTHERS
+}
+
+enum EnumPix {
+  CPF
+  CNPJ
+  EMAIL
+  PHONE
+}
+
+enum EnumTransfer {
+  PIX
+  TED
+  DOC
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  name     String
+  lastName String
+  cpf      String  @unique
+  email    String  @unique
+  username String  @unique
+  password String
+  active   Boolean @default(true)
+  mobile   String?
+
+  money Money?
+  banks Bank[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Money {
+  id Int @id @default(autoincrement())
+
+  userId Int  @unique @map("user_id")
+  user   User @relation(fields: [userId], references: [id])
+
+  balanceValue Decimal
+
+  moneyBoxes  MoneyBox[]
+  operaMoneys OperaMoney[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OperaMoney {
+  id Int @id @default(autoincrement())
+
+  moneyId Int   @map("money_id")
+  money   Money @relation(fields: [moneyId], references: [id])
+
+  typeTransfer EnumFinancePlus
+  balanceValue Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model MoneyBox {
+  id Int @id @default(autoincrement())
+
+  moneyId Int   @map("money_id")
+  money   Money @relation(fields: [moneyId], references: [id])
+
+  description  String
+  objective    Decimal
+  balanceValue Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OperaMoneyBox {
+  id Int @default(autoincrement())
+
+  moneyBoxId Int      @map("money_box_id")
+  moneyBox   MoneyBox @relation(fields: [moneyBoxId], references: [id])
+
+  typeTransfer EnumFinance
+  balanceValue Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Bank {
+  id Int @id @default(autoincrement())
+
+  name EnumBanks
+
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id])
+
+  numbAccount  String
+  numbAgency   String
+  balanceValue Decimal
+
+  operaBanks OperaBank[]
+  bankBoxes  BankBox[]
+  pixKeys    PixKey[]
+  cards      Card[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OperaBank {
+  id Int @id @default(autoincrement())
+
+  bankId Int  @map("bank_id")
+  bank   Bank @relation(fields: [bankId], references: [id])
+
+  description   String
+  typeTransfer  EnumTransfer
+  state         EnumOpState
+  bankOperation EnumFinancePlus
+  senderName    String
+  receiverName  String
+  balanceValue  Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model PixKey {
+  id Int @id @default(autoincrement())
+
+  bankId Int  @map("bank_id")
+  bank   Bank @relation(fields: [bankId], references: [id])
+
+  name    String
+  typeKey EnumPix
+  pixKey  String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model BankBox {
+  id Int @id @default(autoincrement())
+
+  bankId Int  @map("bank_id")
+  bank   Bank @relation(fields: [bankId], references: [id])
+
+  description  String
+  objective    Decimal
+  balanceValue Decimal
+
+  operaBankBoxes OperaBankBox[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OperaBankBox {
+  id Int @id @default(autoincrement())
+
+  bankBoxId Int     @map("bank_box_id")
+  bankBox   BankBox @relation(fields: [bankBoxId], references: [id])
+
+  typeTransfer EnumFinance
+  balanceValue Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Card {
+  id Int @id @default(autoincrement())
+
+  bankId Int  @map("bank_id")
+  bank   Bank @relation(fields: [bankId], references: [id])
+
+  cardFlag     EnumFlag
+  cardLimit    Decimal
+  currentLimit Decimal
+  balanceValue Decimal
+  reversal     Boolean  @default(false)
+
+  invoices Invoice[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Invoice {
+  id Int @id @default(autoincrement())
+
+  cardId Int  @map("card_id")
+  card   Card @relation(fields: [cardId], references: [id])
+
+  description String?
+
+  quantity     Int
+  invoicePaid  Int
+  balanceValue Decimal
+
+  invoices Invoice[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OperaInvoice {
+  id Int @id @default(autoincrement())
+
+  invoiceId Int     @map("invoice_id")
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  balanceValue Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}

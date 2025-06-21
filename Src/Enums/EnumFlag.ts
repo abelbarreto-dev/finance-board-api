@@ -1,8 +1,8 @@
 export enum EnumFlag {
-    mastercard = "Mastercard",
-    visa = "Visa",
-    elo = "Elo",
-    amex = "Amex",
-    diners = "Diners",
-    hipercard = "Hipercard"
+    MASTERCARD = "MASTERCARD",
+    VISA = "VISA",
+    ELO = "ELO",
+    AMEX = "AMEX",
+    DINERS = "DINERS",
+    HIPERCARD = "HIPERCARD"
 }

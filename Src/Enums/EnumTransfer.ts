@@ -1,5 +1,5 @@
 export enum EnumTransfer {
-    pix = "Pix",
-    ted = "TED",
-    doc = "DOC"
+    PIX = "PIX",
+    TED = "TED",
+    DOC = "DOC"
 }

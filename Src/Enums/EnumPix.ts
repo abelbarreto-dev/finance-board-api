@@ -1,6 +1,6 @@
 export enum EnumPix {
-    cpf = "CPF",
-    cnpj = "CNPJ",
-    email = "Email",
-    phone = "Phone"
+    CPF = "CPF",
+    CNPJ = "CNPJ",
+    EMAIL = "EMAIL",
+    PHONE = "PHONE"
 }

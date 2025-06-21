@@ -1,4 +1,4 @@
 export enum EnumOpState {
-    myself = "Myself",
-    others = "Others"
+    MYSELF = "MYSELF",
+    OTHERS = "OTHERS"
 }

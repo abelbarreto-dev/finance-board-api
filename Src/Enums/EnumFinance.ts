@@ -1,4 +1,4 @@
 export enum EnumFinance {
-    withdraw = "Withdraw",
-    deposit = "Deposit"
+    WITHDRAW = "WITHDRAW",
+    DEPOSIT = "DEPOSIT"
 }

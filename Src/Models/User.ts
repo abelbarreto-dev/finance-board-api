@@ -6,6 +6,7 @@ export class User {
     email: string = "";
     username: string = "";
     password: string = "";
+    active: boolean = true;
     mobile?: string;
     createAt?: Date;
     updateAt?: Date;

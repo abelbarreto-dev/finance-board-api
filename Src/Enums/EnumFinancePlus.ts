@@ -1,5 +1,5 @@
 export enum EnumFinancePlus {
-    withdraw = "Withdraw",
-    deposit = "Deposit",
-    payment = "Payment"
+    WITHDRAW = "WITHDRAW",
+    DEPOSIT = "DEPOSIT",
+    PAYMENT = "PAYMENT"
 }

@@ -24,6 +24,12 @@ export class InvoiceUtil {
         );
     }
 
+    private static checkQuantityAndPaidQuantity(quantity: number, paidQuantity: number): void {
+        if (quantity < paidQuantity) throw new InvoiceException(
+            "quantity value must be greater than or equal to paid quantity"
+        );
+    }
+
     public static checkInvoice(invoice: InvoiceDTO): void {
         const description: any = invoice.description;
 
@@ -32,5 +38,7 @@ export class InvoiceUtil {
         this.checkQuantity(invoice.quantity);
         this.checkBalance(invoice.invoicePaid, " paid balance");
         this.checkBalance(invoice.balanceValue, " balance");
+
+        this.checkQuantityAndPaidQuantity(invoice.quantity, invoice.invoicePaid);
     }
 }

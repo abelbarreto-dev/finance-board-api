@@ -34,6 +34,7 @@
       "@Controllers/*": ["Src/Controllers/*"],
       "@Dtos/*": ["Src/Dtos/*"],
       "@Enums/*": ["Src/Enums/*"],
+      "@Exceptions/*": ["Src/Exceptions/*"],
       "@Repositories/*": ["Src/Repositories/*"],
       "@Routes/*": ["Src/Routes/*"],
       "@Services/*": ["Src/Services/*"],

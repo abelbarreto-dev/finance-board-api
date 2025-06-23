@@ -64,7 +64,6 @@ model User {
 
   name     String
   lastName String
-  cpf      String  @unique
   email    String  @unique
   username String  @unique
   password String
@@ -116,8 +115,9 @@ model MoneyBox {
   objective    Decimal
   balanceValue Decimal
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  OperaMoneyBox OperaMoneyBox[]
 }
 
 model OperaMoneyBox {
@@ -247,8 +247,11 @@ model Invoice {
 
   invoices Invoice[]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  Invoice      Invoice?       @relation(fields: [invoiceId], references: [id])
+  invoiceId    Int?
+  OperaInvoice OperaInvoice[]
 }
 
 model OperaInvoice {

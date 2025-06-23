@@ -1,6 +1,6 @@
-export interface MoneyBokDTO {
+export interface MoneyBoxDTO {
     moneyId: number;
     description: string;
-    objective: number;
+    objective?: number;
     balanceValue: number;
 }

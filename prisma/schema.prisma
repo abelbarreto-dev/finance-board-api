@@ -193,7 +193,7 @@ model BankBox {
   bank   Bank @relation(fields: [bankId], references: [id])
 
   description  String
-  objective    Decimal
+  objective    Decimal?
   balanceValue Decimal
 
   operaBankBoxes OperaBankBox[]

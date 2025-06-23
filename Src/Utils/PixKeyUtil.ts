@@ -9,7 +9,7 @@ export class PixKeyUtil {
         );
 
         if (pixKeyName.match(regName) === null) throw new PixKeyException(
-            "invalid characters found in pix key name"
+            "invalid name pix key"
         );
     }
 
@@ -19,7 +19,7 @@ export class PixKeyUtil {
         );
 
         if (email.match(regEmail) === null) throw new PixKeyException (
-            "invalid characters found in email"
+            "invalid email pix key"
         );
     }
 
@@ -29,7 +29,7 @@ export class PixKeyUtil {
         );
 
         if (cpf.match(regCpf) === null) throw new PixKeyException (
-            "invalid characters found in cpf"
+            "invalid cpf pix key"
         );
     }
 
@@ -39,7 +39,7 @@ export class PixKeyUtil {
         );
 
         if (cnpj.match(regCnpj) === null) throw new PixKeyException (
-            "invalid characters found in cnpj"
+            "invalid cnpj pix key"
         );
     }
 
@@ -49,7 +49,17 @@ export class PixKeyUtil {
         );
 
         if (mobile.match(regMobile) === null) throw new PixKeyException(
-            "invalid mobile phone number"
+            "invalid mobile number pix key"
+        );
+    }
+
+    private static checkRandom(random: string): void {
+        const regRandom = (
+            /^[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}$/
+        );
+
+        if (random.match(regRandom) === null) throw new PixKeyException(
+            "invalid random pix key"
         );
     }
 
@@ -65,6 +75,7 @@ export class PixKeyUtil {
         checkers[EnumPix.CNPJ] = this.checkCnpj;
         checkers[EnumPix.PHONE] = this.checkMobile;
         checkers[EnumPix.EMAIL] = this.checkEmail;
+        checkers[EnumPix.RANDOM] = this.checkRandom;
 
         checkers[pixKey.typeKey](pixKey.pixKey);
     }

@@ -2,5 +2,6 @@ export enum EnumPix {
     CPF = "CPF",
     CNPJ = "CNPJ",
     EMAIL = "EMAIL",
-    PHONE = "PHONE"
+    PHONE = "PHONE",
+    RANDOM = "RANDOM"
 }

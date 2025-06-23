@@ -51,6 +51,7 @@ enum EnumPix {
   CNPJ
   EMAIL
   PHONE
+  RANDOM
 }
 
 enum EnumTransfer {

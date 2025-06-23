@@ -121,7 +121,7 @@ model MoneyBox {
 }
 
 model OperaMoneyBox {
-  id Int @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   moneyBoxId Int      @map("money_box_id")
   moneyBox   MoneyBox @relation(fields: [moneyBoxId], references: [id])
@@ -245,13 +245,10 @@ model Invoice {
   invoicePaid  Int
   balanceValue Decimal
 
-  invoices Invoice[]
-
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
-  Invoice      Invoice?       @relation(fields: [invoiceId], references: [id])
-  invoiceId    Int?
   OperaInvoice OperaInvoice[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model OperaInvoice {

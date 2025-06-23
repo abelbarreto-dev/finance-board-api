@@ -224,7 +224,7 @@ model Card {
   cardFlag     EnumFlag
   cardLimit    Decimal
   currentLimit Decimal
-  balanceValue Decimal
+  balanceValue Decimal?
   reversal     Boolean  @default(false)
 
   invoices Invoice[]

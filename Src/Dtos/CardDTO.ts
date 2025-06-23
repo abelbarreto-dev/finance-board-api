@@ -5,6 +5,6 @@ export interface CardDTO {
     cardFlag: EnumFlag;
     cardLimit: number;
     currentLimit: number;
-    balanceValue: number;
+    balanceValue?: number;
     reversal?: boolean;
 }

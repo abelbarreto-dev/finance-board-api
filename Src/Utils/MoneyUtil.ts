@@ -26,7 +26,7 @@ export class MoneyUtil {
     public static checkMoneyBox(moneyBox: MoneyBoxDTO): void {
         const objective: any = moneyBox.objective;
 
-        if (![undefined, null].includes(objective)) this.checkBalance(objective);
+        if (![undefined, null].includes(objective)) this.checkBalance(moneyBox.objective as number);
         this.checkDescription(moneyBox.description);
         this.checkBalance(moneyBox.balanceValue);
     }

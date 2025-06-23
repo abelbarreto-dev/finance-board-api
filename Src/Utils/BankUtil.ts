@@ -59,7 +59,7 @@ export class BankUtil {
     public static checkBankBox(bankBox: BankBoxDTO): void {
         const objective: any = bankBox.objective;
 
-        if (![undefined, null].includes(objective)) this.checkBalance(objective);
+        if (![undefined, null].includes(objective)) this.checkBalance(bankBox.objective as number);
         this.checkDescription(bankBox.description);
         this.checkBalance(bankBox.balanceValue);
     }

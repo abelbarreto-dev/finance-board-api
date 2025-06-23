@@ -24,6 +24,7 @@ export class CardUtil {
 
         const balance: any = card.balanceValue;
 
-        if (![undefined, null].includes(balance)) this.checkBalance(balance, "");
+        if (![undefined, null].includes(balance))
+            this.checkBalance(card.balanceValue as number, "");
     }
 }

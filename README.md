@@ -21,6 +21,8 @@ Src/
 ├──Routes/
 ├──Services/
 ├──Utils
+Tests/
+├──Utils/
 env.example
 .gitignore
 package.json

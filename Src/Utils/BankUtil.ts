@@ -3,18 +3,15 @@ import {BankBoxDTO} from "@Dtos/BankBoxDTO";
 import {BankDTO} from "@Dtos/BankDTO";
 import {EnumBanks} from "@Enums/EnumBanks";
 import {BalanceUtil} from "@Utils/BalanceUtil";
+import {WordUtil} from "@Utils/WordUtil";
 
 export class BankUtil {
     private static except: BankException = new BankException("");
 
     private static checkDescription(description: string): void {
-        const regDescription = (
-            /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
-        );
-
         this.except.message = "invalid characters found in bank box description";
 
-        if (description.match(regDescription) === null) throw this.except;
+        WordUtil.checkDescription<BankException>(description, 253, this.except);
     }
 
     private static checkAccountNumber(accountNumber: string): void {

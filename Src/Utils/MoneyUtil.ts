@@ -2,18 +2,15 @@ import {MoneyDTO} from "@Dtos/MoneyDTO";
 import {MoneyException} from "@Exceptions/MoneyException";
 import {MoneyBoxDTO} from "@Dtos/MoneyBoxDTO";
 import {BalanceUtil} from "@Utils/BalanceUtil";
+import {WordUtil} from "@Utils/WordUtil";
 
 export class MoneyUtil {
     private static except: MoneyException = new MoneyException("");
 
     private static checkDescription(description: string): void {
-        const regDescription = (
-            /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
-        );
-
         this.except.message = "invalid characters found in money box description";
 
-        if (description.match(regDescription) === null) throw this.except;
+        WordUtil.checkDescription<MoneyException>(description, 253, this.except);
     }
 
     public static checkMoney(money: MoneyDTO): void {

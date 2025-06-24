@@ -1,24 +1,25 @@
 import {InvoiceDTO} from "@Dtos/InvoiceDTO";
 import {InvoiceException} from "@Exceptions/InvoiceException";
 import {BalanceUtil} from "@Utils/BalanceUtil";
+import {WordUtil} from "@Utils/WordUtil";
 
 export class InvoiceUtil {
     private static except: InvoiceException = new InvoiceException("");
 
-    private static checkDescription(description: string): void {
-        const regDescription = (
-            /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
-        );
+    private static checkDescription(description?: string): void {
+        if (!description) return;
 
-        if (description.match(regDescription) === null) throw new InvoiceException (
-            "invalid characters found in money box description"
-        );
+        const descriptionToCheck: string = description.toString();
+
+        this.except.message = "invalid characters found in invoice description or length";
+
+        WordUtil.checkDescription<InvoiceException>(descriptionToCheck, 253, this.except);
     }
 
     private static checkQuantity(quantity: number): void {
-        if (quantity < 0) throw new InvoiceException(
-            "quantity value must be positive"
-        );
+        this.except.message = "quantity value must be positive";
+
+        if (quantity < 0) throw this.except;
     }
 
     private static checkQuantityAndPaidQuantity(quantity: number, paidQuantity: number): void {
@@ -30,7 +31,7 @@ export class InvoiceUtil {
     public static checkInvoice(invoice: InvoiceDTO): void {
         const description: any = invoice.description;
 
-        if (description) this.checkDescription(invoice.description as string);
+        if (description) this.checkDescription(invoice.description);
 
         this.checkQuantity(invoice.quantity);
 

@@ -1,20 +1,15 @@
 import {PixKeyException} from "@Exceptions/PixKeyException";
 import {PixKeyDTO} from "@Dtos/PixKeyDTO";
 import {EnumPix} from "@Enums/EnumPix";
+import {WordUtil} from "@Utils/WordUtil";
 
 export class PixKeyUtil {
     private static except: PixKeyException = new PixKeyException("");
 
     private static checkPixKeyName(pixKeyName: string): void {
-        const regName = (
-            /^[a-zA-Z- .]{1,254}[a-zA-Z.]$/
-        );
+        this.except.message = "invalid name pix key characters or length";
 
-        this.except.message = (
-            "invalid name pix key characters or length"
-        );
-
-        if (pixKeyName.match(regName) === null) throw this.except;
+        WordUtil.checkDescription<PixKeyException>(pixKeyName, 253, this.except);
     }
 
     private static checkEmail(email: string): void {

@@ -1,25 +1,20 @@
 import {UserDTO} from "@Dtos/UserDTO";
 import {UserException} from "@Exceptions/UserException";
+import {WordUtil} from "@Utils/WordUtil";
 
 export class UserUtil {
-    private static checkName(name: string): void {
-        const regLastName = (
-            /^[A-Z][a-zA-Z- .]{1,30}[a-zA-Z.]$/
-        );
+    private static except: UserException = new UserException("");
 
-        if (name.match(regLastName) === null) throw new UserException(
-            "invalid characters found in name"
-        );
+    private static checkFirstName(name: string): void {
+        this.except.message = "invalid characters found in first name or length";
+
+        WordUtil.checkFirstName<UserException>(name, this.except);
     }
 
     private static checkLastName(lastName: string): void {
-        const regName = (
-            /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
-        );
+        this.except.message = "invalid characters found in last name or length";
 
-        if (lastName.match(regName) === null) throw new UserException(
-            "invalid characters found in last name"
-        );
+        WordUtil.checkLastName<UserException>(lastName, this.except);
     }
 
     private static checkUsername(username: string): void {
@@ -27,9 +22,9 @@ export class UserUtil {
             /^[a-z][a-z-_0-9]{1,254}$/
         );
 
-        if (username.match(regUsername) === null) throw new UserException(
-            "invalid characters found in username"
-        );
+        this.except.message = "invalid characters found in username or length";
+
+        if (username.match(regUsername) === null) throw this.except;
     }
 
     private static checkEmail(email: string): void {
@@ -37,37 +32,34 @@ export class UserUtil {
             /^[a-z][a-z-_0-9.]{1,254}[a-z0-9]@[a-z0-9]{1,16}?.[a-z]{2,3}.[a-z0-9]{2,3}$/
         );
 
-        if (email.match(regEmail) === null) throw new UserException(
-            "invalid characters found in email"
-        );
+        this.except.message = "invalid characters found in email or length";
+
+        if (email.match(regEmail) === null) throw this.except
     }
 
     private static checkPassword(password: string): void {
-        if (password.length < 8) throw new UserException(
-            "password must be at least 8 characters long"
-        );
+        this.except.message = "invalid characters found in password or length";
 
-        if (password.length > 32) throw new UserException(
-            "password must be at most 32 characters long"
-        );
+        const regPassword = /^[\S+]{8,32}$/;
+
+        if (password.match(regPassword) === null) throw this.except
     }
 
-    private static checkMobile(mobile: string | null | undefined): void {
-        if ([null, undefined, "test"].includes(mobile)) return
+    private static checkMobile(mobile?: string): void {
+        if (!mobile) return;
+        const phoneNumber: string = mobile.toString();
 
         const regMobile = (
             /^[0-9]{11,12}$/
         );
 
-        const mobileNum: string = mobile as string;
+        this.except.message = "invalid characters found in mobile phone number or length";
 
-        if (mobileNum.match(regMobile) === null) throw new UserException(
-            "invalid mobile phone number"
-        );
+        if (phoneNumber.match(regMobile) === null) throw this.except;
     }
 
     public static checkUser(user: UserDTO): void {
-        this.checkName(user.name);
+        this.checkFirstName(user.name);
         this.checkLastName(user.lastName);
         this.checkEmail(user.email);
         this.checkUsername(user.username);

@@ -1,24 +1,20 @@
 import {BankException} from "@Exceptions/BankException";
 import {BankBoxDTO} from "@Dtos/BankBoxDTO";
-import {MoneyException} from "@Exceptions/MoneyException";
 import {BankDTO} from "@Dtos/BankDTO";
 import {EnumBanks} from "@Enums/EnumBanks";
+import {BalanceUtil} from "@Utils/BalanceUtil";
 
 export class BankUtil {
+    private static except: BankException = new BankException("");
+
     private static checkDescription(description: string): void {
         const regDescription = (
             /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
         );
 
-        if (description.match(regDescription) === null) throw new BankException(
-            "invalid characters found in bank box description"
-        );
-    }
+        this.except.message = "invalid characters found in bank box description";
 
-    private static checkBalance(balance: number): void {
-        if (balance < 0) throw new MoneyException(
-            "balance value must be positive"
-        );
+        if (description.match(regDescription) === null) throw this.except;
     }
 
     private static checkAccountNumber(accountNumber: string): void {
@@ -26,9 +22,11 @@ export class BankUtil {
             /^[0-9]{5,12}$/
         );
 
-        if (accountNumber.match(regAccountNumber) === null) throw new BankException (
-            "invalid characters found in bank account number"
+        this.except.message = (
+            "invalid bank account number length found, bank account number length must be between 5 and 12"
         );
+
+        if (accountNumber.match(regAccountNumber) === null) throw this.except
     }
 
     private static checkAgencyNumber(agencyNumber: string): void {
@@ -36,31 +34,43 @@ export class BankUtil {
             /^[0-9]{3,5}$/
         );
 
-        if (agencyNumber.match(regAgencyNumber) === null) throw new BankException (
-            "invalid characters found in bank agency number"
+        this.except.message = (
+            "invalid bank agency number length found, bank agency number length must be between 3 and 5"
         );
+
+        if (agencyNumber.match(regAgencyNumber) === null) throw this.except;
     }
 
     private static checkBankName(bankName: string): void {
         const enumBanks: {[index: string]: string} = {...EnumBanks};
 
-        if (!Object.keys(enumBanks).includes(bankName)) throw new BankException(
-            "invalid bank name found"
-        );
+        this.except.message = "invalid bank name found";
+
+        if (!Object.keys(enumBanks).includes(bankName)) throw this.except;
     }
 
     public static checkBank(bank: BankDTO): void {
         this.checkBankName(bank.name);
         this.checkAccountNumber(bank.numbAccount);
         this.checkAgencyNumber(bank.numbAgency);
-        this.checkBalance(bank.balanceValue);
+
+        this.except.message = "invalid bank balance value found, bank balance value must be positive";
+
+        BalanceUtil.checkBalance<BankException>(
+            bank.balanceValue, this.except
+        )
     }
 
     public static checkBankBox(bankBox: BankBoxDTO): void {
         const objective: any = bankBox.objective;
 
-        if (![undefined, null].includes(objective)) this.checkBalance(bankBox.objective as number);
+        this.except.message = "invalid bank box objective value found, bank box objective value must be positive";
+        if (![undefined, null].includes(objective))
+            BalanceUtil.checkBalance<BankException>(bankBox.objective as number, this.except);
+
+        this.except.message = "invalid bank box balance value found, bank box balance value must be positive";
+        BalanceUtil.checkBalance<BankException>(bankBox.balanceValue, this.except);
+
         this.checkDescription(bankBox.description);
-        this.checkBalance(bankBox.balanceValue);
     }
 }

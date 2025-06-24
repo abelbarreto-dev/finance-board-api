@@ -5,16 +5,19 @@ import {EnumFinance} from "@Enums/EnumFinance";
 import {EnumTransfer} from "@Enums/EnumTransfer";
 import {EnumOpState} from "@Enums/EnumOpState";
 import {EnumFinancePlus} from "@Enums/EnumFinancePlus";
+import {BalanceUtil} from "@Utils/BalanceUtil";
 
 export class OperaBankUtil {
+    private static except: OperaException = new OperaException("");
+
     private static checkName(name: string, paramName: string): void {
         const regName = (
             /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
         );
 
-        if (name.match(regName) === null) throw new OperaException (
-            `invalid characters found in bank operation ${paramName} name`
-        );
+        this.except.message = `invalid characters found in bank operation ${paramName} name`;
+
+        if (name.match(regName) === null) throw this.except;
     }
 
     private static checkDescription(description: string): void {
@@ -22,23 +25,17 @@ export class OperaBankUtil {
             /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
         );
 
-        if (description.match(regDescription) === null) throw new OperaException (
-            "invalid characters found in bank operation"
-        );
-    }
+        this.except.message = "invalid characters found in bank operation description";
 
-    private static checkBalance(balance: number, typeBalance: string = ""): void {
-        if (balance < 0) throw new OperaException(
-            `${typeBalance} balance value must be positive`
-        );
+        if (description.match(regDescription) === null) throw this.except;
     }
 
     private static checkEnumValue(value: string, enumerate: {}, enumName: string): void {
         const enumValues: {[index: string]: string} = {...enumerate};
 
-        if (!Object.keys(enumValues).includes(value)) throw new OperaException(
-            `invalid ${value} value found at ${enumName}`
-        );
+        this.except.message = `invalid ${value} value found at ${enumName}`;
+
+        if (!Object.keys(enumValues).includes(value)) throw this.except;
     }
 
     public static checkOperaBank(operaBank: OperaBankDTO): void {
@@ -55,12 +52,16 @@ export class OperaBankUtil {
         this.checkDescription(operaBank.description);
         this.checkName(operaBank.senderName, "sender");
         this.checkName(operaBank.receiverName, "receiver");
-        this.checkBalance(operaBank.balanceValue, "opera bank");
+
+        this.except.message = "invalid bank operation balance value found, bank operation balance value must be positive";
+        BalanceUtil.checkBalance<OperaException>(operaBank.balanceValue, this.except);
     }
 
     public static checkOperaBankBox(operaBankBox: OperaBankBoxDTO): void {
         this.checkEnumValue(operaBankBox.typeTransfer, EnumFinance, "type transfer");
 
-        this.checkBalance(operaBankBox.balanceValue, "opera bank box");
+        this.except.message = "invalid bank operation objective value found, " +
+            "bank operation objective value must be positive";
+        BalanceUtil.checkBalance<OperaException>(operaBankBox.balanceValue, this.except);
     }
 }

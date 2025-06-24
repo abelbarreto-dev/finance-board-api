@@ -1,7 +1,10 @@
 import {InvoiceDTO} from "@Dtos/InvoiceDTO";
 import {InvoiceException} from "@Exceptions/InvoiceException";
+import {BalanceUtil} from "@Utils/BalanceUtil";
 
 export class InvoiceUtil {
+    private static except: InvoiceException = new InvoiceException("");
+
     private static checkDescription(description: string): void {
         const regDescription = (
             /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
@@ -12,12 +15,6 @@ export class InvoiceUtil {
         );
     }
 
-    private static checkBalance(balance: number, typeBalance: string = ""): void {
-        if (balance < 0) throw new InvoiceException(
-            `invoice${typeBalance} value must be positive`
-        );
-    }
-
     private static checkQuantity(quantity: number): void {
         if (quantity < 0) throw new InvoiceException(
             "quantity value must be positive"
@@ -25,9 +22,9 @@ export class InvoiceUtil {
     }
 
     private static checkQuantityAndPaidQuantity(quantity: number, paidQuantity: number): void {
-        if (quantity < paidQuantity) throw new InvoiceException(
-            "quantity value must be greater than or equal to paid quantity"
-        );
+        this.except.message = "quantity value must be greater than or equal to paid quantity";
+
+        if (quantity < paidQuantity) throw this.except;
     }
 
     public static checkInvoice(invoice: InvoiceDTO): void {
@@ -36,8 +33,11 @@ export class InvoiceUtil {
         if (description) this.checkDescription(invoice.description as string);
 
         this.checkQuantity(invoice.quantity);
-        this.checkBalance(invoice.invoicePaid, " paid balance");
-        this.checkBalance(invoice.balanceValue, " balance");
+
+        this.except.message = "invalid invoice balance value found, invoice balance value must be positive";
+        BalanceUtil.checkBalance<InvoiceException>(invoice.balanceValue, this.except);
+        this.except.message = "invalid invoice paid value found, invoice paid value must be positive";
+        BalanceUtil.checkBalance<InvoiceException>(invoice.invoicePaid, this.except);
 
         this.checkQuantityAndPaidQuantity(invoice.quantity, invoice.invoicePaid);
     }

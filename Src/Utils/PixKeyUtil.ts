@@ -3,14 +3,18 @@ import {PixKeyDTO} from "@Dtos/PixKeyDTO";
 import {EnumPix} from "@Enums/EnumPix";
 
 export class PixKeyUtil {
+    private static except: PixKeyException = new PixKeyException("");
+
     private static checkPixKeyName(pixKeyName: string): void {
         const regName = (
-            /^[A-Z][a-zA-Z- .]{1,253}[a-zA-Z.]$/
+            /^[a-zA-Z- .]{1,254}[a-zA-Z.]$/
         );
 
-        if (pixKeyName.match(regName) === null) throw new PixKeyException(
-            "invalid name pix key"
+        this.except.message = (
+            "invalid name pix key characters or length"
         );
+
+        if (pixKeyName.match(regName) === null) throw this.except;
     }
 
     private static checkEmail(email: string): void {
@@ -18,9 +22,9 @@ export class PixKeyUtil {
             /^[a-z][a-z-_0-9.]{1,254}[a-z0-9]@[a-z0-9]{1,16}?.[a-z]{2,3}.[a-z0-9]{2,3}$/
         );
 
-        if (email.match(regEmail) === null) throw new PixKeyException (
-            "invalid email pix key"
-        );
+        this.except.message = "invalid email pix key characters or length";
+
+        if (email.match(regEmail) === null) throw this.except;
     }
 
     private static checkCpf(cpf: string): void {
@@ -28,9 +32,9 @@ export class PixKeyUtil {
             /^[0-9]{11}$/
         );
 
-        if (cpf.match(regCpf) === null) throw new PixKeyException (
-            "invalid cpf pix key"
-        );
+        this.except.message = "invalid cpf pix key characters or length";
+
+        if (cpf.match(regCpf) === null) throw this.except;
     }
 
     private static checkCnpj(cnpj: string): void {
@@ -38,9 +42,9 @@ export class PixKeyUtil {
             /^[0-9]{14}$/
         );
 
-        if (cnpj.match(regCnpj) === null) throw new PixKeyException (
-            "invalid cnpj pix key"
-        );
+        this.except.message = "invalid cnpj pix key characters or length";
+
+        if (cnpj.match(regCnpj) === null) throw this.except;
     }
 
     private static checkMobile(mobile: string): void {
@@ -48,9 +52,9 @@ export class PixKeyUtil {
             /^[0-9]{12}$/
         );
 
-        if (mobile.match(regMobile) === null) throw new PixKeyException(
-            "invalid mobile number pix key"
-        );
+        this.except.message = "invalid mobile phone number pix key characters or length";
+
+        if (mobile.match(regMobile) === null) throw this.except;
     }
 
     private static checkRandom(random: string): void {
@@ -58,17 +62,17 @@ export class PixKeyUtil {
             /^[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}$/
         );
 
-        if (random.match(regRandom) === null) throw new PixKeyException(
-            "invalid random pix key"
-        );
+        this.except.message = "invalid random pix key characters or length";
+
+        if (random.match(regRandom) === null) throw this.except;
     }
 
     public static checkPixKey(pixKey: PixKeyDTO): void {
         const checkers: {[index: string]: any} = {...EnumPix};
 
-        if (!Object.keys(checkers).includes(pixKey.typeKey)) throw new PixKeyException(
-            "invalid pix key type found"
-        );
+        this.except.message = "invalid pix key type found";
+
+        if (!Object.keys(checkers).includes(pixKey.typeKey)) throw this.except;
 
         this.checkPixKeyName(pixKey.name);
         checkers[EnumPix.CPF] = this.checkCpf;

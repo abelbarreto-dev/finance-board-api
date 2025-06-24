@@ -1,14 +1,12 @@
 import {OperaException} from "@Exceptions/OperaException";
 import {OperaInvoiceDTO} from "@Dtos/OperaInvoiceDTO";
+import {BalanceUtil} from "@Utils/BalanceUtil";
 
 export class OperaInvoiceUtil {
-    private static checkBalance(balance: number, typeBalance: string = ""): void {
-        if (balance < 0) throw new OperaException(
-            `${typeBalance} balance value must be positive`
-        );
-    }
+    private static except: OperaException = new OperaException("");
 
     public static checkOperaInvoice(operaInvoice: OperaInvoiceDTO): void {
-        this.checkBalance(operaInvoice.balanceValue, "opera invoice");
+        this.except.message = "invalid opera invoice balance value found, opera invoice balance value must be positive";
+        BalanceUtil.checkBalance<OperaException>(operaInvoice.balanceValue, this.except);
     }
 }

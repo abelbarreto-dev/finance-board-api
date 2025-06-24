@@ -2,6 +2,7 @@ import {PixKeyException} from "@Exceptions/PixKeyException";
 import {PixKeyDTO} from "@Dtos/PixKeyDTO";
 import {EnumPix} from "@Enums/EnumPix";
 import {WordUtil} from "@Utils/WordUtil";
+import {EnumUtil} from "@Utils/EnumUtil";
 
 export class PixKeyUtil {
     private static except: PixKeyException = new PixKeyException("");
@@ -67,7 +68,7 @@ export class PixKeyUtil {
 
         this.except.message = "invalid pix key type found";
 
-        if (!Object.keys(checkers).includes(pixKey.typeKey)) throw this.except;
+        EnumUtil.checkEnumKey<PixKeyException>(pixKey.typeKey, checkers, this.except);
 
         this.checkPixKeyName(pixKey.name);
         checkers[EnumPix.CPF] = this.checkCpf;

@@ -7,6 +7,7 @@ import {EnumOpState} from "@Enums/EnumOpState";
 import {EnumFinancePlus} from "@Enums/EnumFinancePlus";
 import {BalanceUtil} from "@Utils/BalanceUtil";
 import {WordUtil} from "@Utils/WordUtil";
+import {EnumUtil} from "@Utils/EnumUtil";
 
 export class OperaBankUtil {
     private static except: OperaException = new OperaException("");
@@ -24,11 +25,9 @@ export class OperaBankUtil {
     }
 
     private static checkEnumValue(value: string, enumerate: {}, enumName: string): void {
-        const enumValues: {[index: string]: string} = {...enumerate};
-
         this.except.message = `invalid ${value} value found at ${enumName}`;
 
-        if (!Object.keys(enumValues).includes(value)) throw this.except;
+        EnumUtil.checkEnumKey<OperaException>(value, enumerate, this.except);
     }
 
     public static checkOperaBank(operaBank: OperaBankDTO): void {
@@ -46,7 +45,10 @@ export class OperaBankUtil {
         this.checkFirstName(operaBank.senderName, "sender");
         this.checkFirstName(operaBank.receiverName, "receiver");
 
-        this.except.message = "invalid bank operation balance value found, bank operation balance value must be positive";
+        this.except.message = (
+            "invalid bank operation balance value found, bank operation balance value must be positive"
+        );
+
         BalanceUtil.checkBalance<OperaException>(operaBank.balanceValue, this.except);
     }
 

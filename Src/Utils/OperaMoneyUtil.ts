@@ -4,29 +4,34 @@ import {OperaMoneyBoxDTO} from "@Dtos/OperaMoneyBoxDTO";
 import {EnumFinance} from "@Enums/EnumFinance";
 import {EnumFinancePlus} from "@Enums/EnumFinancePlus";
 import {BalanceUtil} from "@Utils/BalanceUtil";
+import {EnumUtil} from "@Utils/EnumUtil";
 
 export class OperaMoneyUtil {
     private static except: OperaException = new OperaException("");
 
-    private static checkEnumValue(value: string, enumerate: {}, enumName: string): void {
-        const enumValues: {[index: string]: string} = {...enumerate};
+    private static checkEnumValue(value: string, enumerate: {}): void {
+        this.except.message = `invalid ${value} value found for type transfer`;
 
-        this.except.message = `invalid ${value} value found at ${enumName}`;
-
-        if (!Object.keys(enumValues).includes(value)) throw this.except;
+        EnumUtil.checkEnumKey<OperaException>(value, enumerate, this.except);
     }
 
     public static checkOperaMoney(operaMoney: OperaMoneyDTO): void {
-        this.checkEnumValue(operaMoney.typeTransfer, EnumFinancePlus, "type transfer");
+        this.checkEnumValue(operaMoney.typeTransfer, EnumFinancePlus);
 
-        this.except.message = "invalid money operation balance value found, money operation balance value must be positive";
+        this.except.message = (
+            "invalid money operation balance value found, money operation balance value must be positive"
+        );
+
         BalanceUtil.checkBalance<OperaException>(operaMoney.balanceValue, this.except);
     }
 
     public static checkOperaMoneyBox(operaMoneyBox: OperaMoneyBoxDTO): void {
-        this.checkEnumValue(operaMoneyBox.typeTransfer, EnumFinance, "type transfer");
+        this.checkEnumValue(operaMoneyBox.typeTransfer, EnumFinance);
 
-        this.except.message = "invalid money box operation balance value found, money box operation balance value must be positive";
+        this.except.message = (
+            "invalid money box operation balance value found, money box operation balance value must be positive"
+        );
+
         BalanceUtil.checkBalance<OperaException>(operaMoneyBox.balanceValue, this.except);
     }
 }

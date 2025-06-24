@@ -2,16 +2,15 @@ import {EnumFlag} from "@Enums/EnumFlag";
 import {CardDTO} from "@Dtos/CardDTO";
 import {BalanceUtil} from "@Utils/BalanceUtil";
 import {CardException} from "@Exceptions/CardException";
+import {EnumUtil} from "@Utils/EnumUtil";
 
 export class CardUtil {
     private static except: CardException = new CardException("");
 
     private static checkCardFlag(cardFlag: string): void {
-        const checkers: {[index: string]: string} = {...EnumFlag};
-
         this.except.message = "invalid card flag found";
 
-        if (!Object.keys(checkers).includes(cardFlag)) throw this.except
+        EnumUtil.checkEnumKey<CardException>(cardFlag, EnumFlag, this.except);
     }
 
     public static checkCard(card: CardDTO): void {

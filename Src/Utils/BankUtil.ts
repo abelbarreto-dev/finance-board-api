@@ -4,6 +4,7 @@ import {BankDTO} from "@Dtos/BankDTO";
 import {EnumBanks} from "@Enums/EnumBanks";
 import {BalanceUtil} from "@Utils/BalanceUtil";
 import {WordUtil} from "@Utils/WordUtil";
+import {EnumUtil} from "@Utils/EnumUtil";
 
 export class BankUtil {
     private static except: BankException = new BankException("");
@@ -39,11 +40,9 @@ export class BankUtil {
     }
 
     private static checkBankName(bankName: string): void {
-        const enumBanks: {[index: string]: string} = {...EnumBanks};
-
         this.except.message = "invalid bank name found";
 
-        if (!Object.keys(enumBanks).includes(bankName)) throw this.except;
+        EnumUtil.checkEnumKey<BankException>(bankName, EnumBanks, this.except);
     }
 
     public static checkBank(bank: BankDTO): void {

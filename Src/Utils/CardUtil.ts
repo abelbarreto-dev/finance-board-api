@@ -3,9 +3,23 @@ import {CardDTO} from "@Dtos/CardDTO";
 import {BalanceUtil} from "@Utils/BalanceUtil";
 import {CardException} from "@Exceptions/CardException";
 import {EnumUtil} from "@Utils/EnumUtil";
+import {WordUtil} from "@Utils/WordUtil";
+import {EnumCard} from "@Enums/EnumCard";
 
 export class CardUtil {
     private static except: CardException = new CardException("");
+
+    private static checkCardType(cardType: string): void {
+        this.except.message = "invalid card type found";
+
+        EnumUtil.checkEnumKey<CardException>(cardType, EnumCard, this.except);
+    }
+
+    private static checkDescription(description: string): void {
+        this.except.message = "invalid characters found in card description or length";
+
+        WordUtil.checkDescription<CardException>(description, 253, this.except);
+    }
 
     private static checkCardFlag(cardFlag: string): void {
         this.except.message = "invalid card flag found";
@@ -15,6 +29,9 @@ export class CardUtil {
 
     public static checkCard(card: CardDTO): void {
         this.checkCardFlag(card.cardFlag);
+        this.checkCardType(card.cardType);
+
+        this.checkDescription(card.description);
 
         this.except.message = "invalid card limit value found, card limit value must be positive";
         BalanceUtil.checkBalance<CardException>(card.cardLimit, this.except);

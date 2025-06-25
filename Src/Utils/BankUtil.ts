@@ -8,18 +8,16 @@ import {EnumUtil} from "@Utils/EnumUtil";
 import {EnumBankAccType} from "@Enums/EnumBankAccType";
 
 export class BankUtil {
-    private static except: BankException = new BankException("");
-
     private static checkEnumTypeAccount(value: string): void {
-        this.except.message = "invalid value found to type account";
+        const except = new BankException("invalid value found to type account");
 
-        EnumUtil.checkEnumKey<BankException>(value, EnumBankAccType, this.except);
+        EnumUtil.checkEnumKey<BankException>(value, EnumBankAccType, except);
     }
 
     private static checkDescription(description: string): void {
-        this.except.message = "invalid characters found in bank box description";
+        const except = new BankException("invalid characters found in bank box description");
 
-        WordUtil.checkDescription<BankException>(description, 253, this.except);
+        WordUtil.checkDescription<BankException>(description, 253, except);
     }
 
     private static checkAccountNumber(accountNumber: string): void {
@@ -27,11 +25,11 @@ export class BankUtil {
             /^[0-9]{5,12}$/
         );
 
-        this.except.message = (
+        const except = new BankException(
             "invalid bank account number length found, bank account number length must be between 5 and 12"
         );
 
-        if (accountNumber.match(regAccountNumber) === null) throw this.except
+        if (accountNumber.match(regAccountNumber) === null) throw except
     }
 
     private static checkAgencyNumber(agencyNumber: string): void {
@@ -39,17 +37,17 @@ export class BankUtil {
             /^[0-9]{3,5}$/
         );
 
-        this.except.message = (
+        const except = new BankException(
             "invalid bank agency number length found, bank agency number length must be between 3 and 5"
         );
 
-        if (agencyNumber.match(regAgencyNumber) === null) throw this.except;
+        if (agencyNumber.match(regAgencyNumber) === null) throw except;
     }
 
     private static checkBankName(bankName: string): void {
-        this.except.message = "invalid bank name found";
+        const except = new BankException("invalid bank name found");
 
-        EnumUtil.checkEnumKey<BankException>(bankName, EnumBanks, this.except);
+        EnumUtil.checkEnumKey<BankException>(bankName, EnumBanks, except);
     }
 
     public static checkBank(bank: BankDTO): void {
@@ -58,22 +56,25 @@ export class BankUtil {
         this.checkAgencyNumber(bank.numbAgency);
         this.checkEnumTypeAccount(bank.accountType);
 
-        this.except.message = "invalid bank balance value found, bank balance value must be positive";
+        const except = new BankException("invalid bank balance value found, bank balance value must be positive");
 
         BalanceUtil.checkBalance<BankException>(
-            bank.balanceValue, this.except
+            bank.balanceValue, except
         )
     }
 
     public static checkBankBox(bankBox: BankBoxDTO): void {
         const objective: any = bankBox.objective;
 
-        this.except.message = "invalid bank box objective value found, bank box objective value must be positive";
-        if (![undefined, null].includes(objective))
-            BalanceUtil.checkBalance<BankException>(bankBox.objective as number, this.except);
+        const except = new BankException(
+            "invalid bank box objective value found, bank box objective value must be positive"
+        );
 
-        this.except.message = "invalid bank box balance value found, bank box balance value must be positive";
-        BalanceUtil.checkBalance<BankException>(bankBox.balanceValue, this.except);
+        if (![undefined, null].includes(objective))
+            BalanceUtil.checkBalance<BankException>(bankBox.objective as number, except);
+
+        except.message = "invalid bank box balance value found, bank box balance value must be positive";
+        BalanceUtil.checkBalance<BankException>(bankBox.balanceValue, except);
 
         this.checkDescription(bankBox.description);
     }

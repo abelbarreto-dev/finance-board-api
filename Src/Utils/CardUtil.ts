@@ -7,24 +7,22 @@ import {WordUtil} from "@Utils/WordUtil";
 import {EnumCard} from "@Enums/EnumCard";
 
 export class CardUtil {
-    private static except: CardException = new CardException("");
-
     private static checkCardType(cardType: string): void {
-        this.except.message = "invalid card type found";
+        const except= new CardException("invalid card type found");
 
-        EnumUtil.checkEnumKey<CardException>(cardType, EnumCard, this.except);
+        EnumUtil.checkEnumKey<CardException>(cardType, EnumCard, except);
     }
 
     private static checkDescription(description: string): void {
-        this.except.message = "invalid characters found in card description or length";
+        const except= new CardException("invalid characters found in card description or length");
 
-        WordUtil.checkDescription<CardException>(description, 253, this.except);
+        WordUtil.checkDescription<CardException>(description, 253, except);
     }
 
     private static checkCardFlag(cardFlag: string): void {
-        this.except.message = "invalid card flag found";
+        const except= new CardException("invalid card flag found");
 
-        EnumUtil.checkEnumKey<CardException>(cardFlag, EnumFlag, this.except);
+        EnumUtil.checkEnumKey<CardException>(cardFlag, EnumFlag, except);
     }
 
     public static checkCard(card: CardDTO): void {
@@ -33,15 +31,15 @@ export class CardUtil {
 
         this.checkDescription(card.description);
 
-        this.except.message = "invalid card limit value found, card limit value must be positive";
-        BalanceUtil.checkBalance<CardException>(card.cardLimit, this.except);
-        this.except.message = "invalid card current limit value found, card current limit value must be positive";
-        BalanceUtil.checkBalance<CardException>(card.currentLimit, this.except);
+        const except = new CardException("invalid card limit value found, card limit value must be positive");
+        BalanceUtil.checkBalance<CardException>(card.cardLimit, except);
+        except.message = "invalid card current limit value found, card current limit value must be positive";
+        BalanceUtil.checkBalance<CardException>(card.currentLimit, except);
 
         const balance: any = card.balanceValue;
-        this.except.message = "invalid card balance value found, card balance value must be positive";
+        except.message = "invalid card balance value found, card balance value must be positive";
 
         if (![undefined, null].includes(balance))
-            BalanceUtil.checkBalance<CardException>(card.balanceValue as number, this.except);
+            BalanceUtil.checkBalance<CardException>(card.balanceValue as number, except);
     }
 }

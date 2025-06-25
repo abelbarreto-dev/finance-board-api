@@ -10,24 +10,22 @@ import {WordUtil} from "@Utils/WordUtil";
 import {EnumUtil} from "@Utils/EnumUtil";
 
 export class OperaBankUtil {
-    private static except: OperaException = new OperaException("");
-
     private static checkFirstName(name: string, paramName: string): void {
-        this.except.message = `invalid characters found in bank operation ${paramName} name`;
+        const except = new OperaException(`invalid characters found in bank operation ${paramName} name`);
 
-        WordUtil.checkFirstName<OperaException>(name, this.except);
+        WordUtil.checkFirstName<OperaException>(name, except);
     }
 
     private static checkDescription(description: string): void {
-        this.except.message = "invalid characters found in bank operation description";
+        const except = new OperaException("invalid characters found in bank operation description");
 
-        WordUtil.checkDescription<OperaException>(description, 253, this.except);
+        WordUtil.checkDescription<OperaException>(description, 253, except);
     }
 
     private static checkEnumValue(value: string, enumerate: {}, enumName: string): void {
-        this.except.message = `invalid ${value} value found at ${enumName}`;
+        const except = new OperaException(`invalid ${value} value found at ${enumName}`);
 
-        EnumUtil.checkEnumKey<OperaException>(value, enumerate, this.except);
+        EnumUtil.checkEnumKey<OperaException>(value, enumerate, except);
     }
 
     public static checkOperaBank(operaBank: OperaBankDTO): void {
@@ -45,18 +43,20 @@ export class OperaBankUtil {
         this.checkFirstName(operaBank.senderName, "sender");
         this.checkFirstName(operaBank.receiverName, "receiver");
 
-        this.except.message = (
+        const except = new OperaException(
             "invalid bank operation balance value found, bank operation balance value must be positive"
         );
 
-        BalanceUtil.checkBalance<OperaException>(operaBank.balanceValue, this.except);
+        BalanceUtil.checkBalance<OperaException>(operaBank.balanceValue, except);
     }
 
     public static checkOperaBankBox(operaBankBox: OperaBankBoxDTO): void {
         this.checkEnumValue(operaBankBox.typeTransfer, EnumFinance, "type transfer");
 
-        this.except.message = "invalid bank operation objective value found, " +
-            "bank operation objective value must be positive";
-        BalanceUtil.checkBalance<OperaException>(operaBankBox.balanceValue, this.except);
+        const except = new OperaException(
+            "invalid bank operation objective value found, bank operation objective value must be positive"
+        );
+
+        BalanceUtil.checkBalance<OperaException>(operaBankBox.balanceValue, except);
     }
 }

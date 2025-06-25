@@ -5,28 +5,32 @@ import {BalanceUtil} from "@Utils/BalanceUtil";
 import {WordUtil} from "@Utils/WordUtil";
 
 export class MoneyUtil {
-    private static except: MoneyException = new MoneyException("");
-
     private static checkDescription(description: string): void {
-        this.except.message = "invalid characters found in money box description";
+        const except = new MoneyException("invalid characters found in money box description");
 
-        WordUtil.checkDescription<MoneyException>(description, 253, this.except);
+        WordUtil.checkDescription<MoneyException>(description, 253, except);
     }
 
     public static checkMoney(money: MoneyDTO): void {
-        this.except.message = "invalid money balance value found, money balance value must be positive";
-        BalanceUtil.checkBalance<MoneyException>(money.balanceValue, this.except);
+        const except = new MoneyException(
+            "invalid money balance value found, money balance value must be positive"
+        );
+
+        BalanceUtil.checkBalance<MoneyException>(money.balanceValue, except);
     }
 
     public static checkMoneyBox(moneyBox: MoneyBoxDTO): void {
         const objective: any = moneyBox.objective;
 
-        this.except.message = "invalid money box objective value found, money box objective value must be positive";
-        if (![undefined, null].includes(objective))
-            BalanceUtil.checkBalance<MoneyException>(moneyBox.objective as number, this.except);
+        const except = new MoneyException(
+            "invalid money box objective value found, money box objective value must be positive"
+        );
 
-        this.except.message = "invalid money box balance value found, money box balance value must be positive";
-        BalanceUtil.checkBalance<MoneyException>(moneyBox.balanceValue, this.except);
+        if (![undefined, null].includes(objective))
+            BalanceUtil.checkBalance<MoneyException>(moneyBox.objective as number, except);
+
+        except.message = "invalid money box balance value found, money box balance value must be positive";
+        BalanceUtil.checkBalance<MoneyException>(moneyBox.balanceValue, except);
 
         this.checkDescription(moneyBox.description);
     }

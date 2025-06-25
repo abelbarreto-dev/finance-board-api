@@ -5,9 +5,16 @@ import {EnumBanks} from "@Enums/EnumBanks";
 import {BalanceUtil} from "@Utils/BalanceUtil";
 import {WordUtil} from "@Utils/WordUtil";
 import {EnumUtil} from "@Utils/EnumUtil";
+import {EnumBankAccType} from "@Enums/EnumBankAccType";
 
 export class BankUtil {
     private static except: BankException = new BankException("");
+
+    private static checkEnumTypeAccount(value: string): void {
+        this.except.message = "invalid value found to type account";
+
+        EnumUtil.checkEnumKey<BankException>(value, EnumBankAccType, this.except);
+    }
 
     private static checkDescription(description: string): void {
         this.except.message = "invalid characters found in bank box description";
@@ -49,6 +56,7 @@ export class BankUtil {
         this.checkBankName(bank.name);
         this.checkAccountNumber(bank.numbAccount);
         this.checkAgencyNumber(bank.numbAgency);
+        this.checkEnumTypeAccount(bank.accountType);
 
         this.except.message = "invalid bank balance value found, bank balance value must be positive";
 

@@ -15,9 +15,9 @@ export class InvoiceUtil {
     }
 
     private static checkQuantity(quantity: number): void {
-        const except = new InvoiceException("quantity value must be positive");
+        const except = new InvoiceException("quantity value must be 1 or greater");
 
-        if (quantity < 0) throw except;
+        if (quantity < 1) throw except;
     }
 
     private static checkQuantityAndPaidQuantity(quantity: number, paidQuantity: number): void {
@@ -36,10 +36,7 @@ export class InvoiceUtil {
         const except = new InvoiceException(
             "invalid invoice balance value found, invoice balance value must be positive"
         );
-
         BalanceUtil.checkBalance<InvoiceException>(invoice.balanceValue, except);
-        except.message = "invalid invoice paid value found, invoice paid value must be positive";
-        BalanceUtil.checkBalance<InvoiceException>(invoice.invoicePaid, except);
 
         this.checkQuantityAndPaidQuantity(invoice.quantity, invoice.invoicePaid);
     }

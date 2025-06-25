@@ -50,7 +50,7 @@ export class UserUtil {
         const phoneNumber: string = mobile.toString();
 
         const regMobile = (
-            /^[0-9]{11,12}$/
+            /^[0-9]{11,13}$/
         );
 
         this.except.message = "invalid characters found in mobile phone number or length";

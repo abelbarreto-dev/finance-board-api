@@ -150,10 +150,10 @@ model OperaMoneyBox {
 model Bank {
   id Int @id @default(autoincrement())
 
-  name EnumBanks
-
   userId Int  @map("user_id")
   user   User @relation(fields: [userId], references: [id])
+
+  name EnumBanks
 
   accountType EnumBankAccType @map("account_type")
 

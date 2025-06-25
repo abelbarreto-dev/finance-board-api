@@ -3,6 +3,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum EnumBankAccType {
+  PAYMENT
+  SAVING
+  CHECKING
+}
+
 enum EnumBanks {
   ITAU
   BRADESCO
@@ -24,6 +30,12 @@ enum EnumBanks {
 enum EnumFinance {
   WITHDRAW
   DEPOSIT
+}
+
+enum EnumCard {
+  VIRTUAL
+  TEMPORARY
+  PHYSICAL
 }
 
 enum EnumFinancePlus {
@@ -64,7 +76,7 @@ model User {
   id Int @id @default(autoincrement())
 
   name     String
-  lastName String
+  lastName String  @map("last_name")
   email    String  @unique
   username String  @unique
   password String
@@ -84,7 +96,7 @@ model Money {
   userId Int  @unique @map("user_id")
   user   User @relation(fields: [userId], references: [id])
 
-  balanceValue Decimal
+  balanceValue Decimal @map("balance_value")
 
   moneyBoxes  MoneyBox[]
   operaMoneys OperaMoney[]
@@ -99,8 +111,8 @@ model OperaMoney {
   moneyId Int   @map("money_id")
   money   Money @relation(fields: [moneyId], references: [id])
 
-  typeTransfer EnumFinancePlus
-  balanceValue Decimal
+  typeTransfer EnumFinancePlus @map("type_transfer")
+  balanceValue Decimal         @map("balance_value")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -114,11 +126,12 @@ model MoneyBox {
 
   description  String
   objective    Decimal?
-  balanceValue Decimal
+  balanceValue Decimal  @map("balance_value")
 
-  createdAt     DateTime        @default(now()) @map("created_at")
-  updatedAt     DateTime        @updatedAt @map("updated_at")
-  OperaMoneyBox OperaMoneyBox[]
+  operaMoneyBox OperaMoneyBox[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model OperaMoneyBox {
@@ -127,8 +140,8 @@ model OperaMoneyBox {
   moneyBoxId Int      @map("money_box_id")
   moneyBox   MoneyBox @relation(fields: [moneyBoxId], references: [id])
 
-  typeTransfer EnumFinance
-  balanceValue Decimal
+  typeTransfer EnumFinance @map("type_transfer")
+  balanceValue Decimal     @map("balance_value")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -142,9 +155,11 @@ model Bank {
   userId Int  @map("user_id")
   user   User @relation(fields: [userId], references: [id])
 
-  numbAccount  String
-  numbAgency   String
-  balanceValue Decimal
+  accountType EnumBankAccType @map("account_type")
+
+  numbAccount  String  @map("number_account")
+  numbAgency   String  @map("number_agency")
+  balanceValue Decimal @map("balance_value")
 
   operaBanks OperaBank[]
   bankBoxes  BankBox[]
@@ -162,12 +177,12 @@ model OperaBank {
   bank   Bank @relation(fields: [bankId], references: [id])
 
   description   String
-  typeTransfer  EnumTransfer
+  typeTransfer  EnumTransfer    @map("type_transfer")
   state         EnumOpState
-  bankOperation EnumFinancePlus
-  senderName    String
-  receiverName  String
-  balanceValue  Decimal
+  bankOperation EnumFinancePlus @map("bank_operation")
+  senderName    String          @map("sender_name")
+  receiverName  String          @map("receiver_name")
+  balanceValue  Decimal         @map("balance_value")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -180,8 +195,8 @@ model PixKey {
   bank   Bank @relation(fields: [bankId], references: [id])
 
   name    String
-  typeKey EnumPix
-  pixKey  String
+  typeKey EnumPix @map("type_key")
+  pixKey  String  @map("pix_key")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -195,7 +210,7 @@ model BankBox {
 
   description  String
   objective    Decimal?
-  balanceValue Decimal
+  balanceValue Decimal  @map("balance_value")
 
   operaBankBoxes OperaBankBox[]
 
@@ -209,8 +224,8 @@ model OperaBankBox {
   bankBoxId Int     @map("bank_box_id")
   bankBox   BankBox @relation(fields: [bankBoxId], references: [id])
 
-  typeTransfer EnumFinance
-  balanceValue Decimal
+  typeTransfer EnumFinance @map("type_transfer")
+  balanceValue Decimal     @map("balance_value")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -222,10 +237,12 @@ model Card {
   bankId Int  @map("bank_id")
   bank   Bank @relation(fields: [bankId], references: [id])
 
-  cardFlag     EnumFlag
-  cardLimit    Decimal
-  currentLimit Decimal
-  balanceValue Decimal?
+  description  String
+  cardType     EnumCard @map("card_type")
+  cardFlag     EnumFlag @map("card_flag")
+  cardLimit    Decimal  @map("card_limit")
+  currentLimit Decimal  @map("current_limit")
+  balanceValue Decimal? @map("balance_value")
   reversal     Boolean  @default(false)
 
   invoices Invoice[]
@@ -243,10 +260,10 @@ model Invoice {
   description String?
 
   quantity     Int
-  invoicePaid  Int
-  balanceValue Decimal
+  invoicePaid  Int     @map("invoice_paid")
+  balanceValue Decimal @map("balance_value")
 
-  OperaInvoice OperaInvoice[]
+  operaInvoices OperaInvoice[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -258,7 +275,7 @@ model OperaInvoice {
   invoiceId Int     @map("invoice_id")
   invoice   Invoice @relation(fields: [invoiceId], references: [id])
 
-  balanceValue Decimal
+  balanceValue Decimal @map("balance_value")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

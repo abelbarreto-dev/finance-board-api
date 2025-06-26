@@ -1,90 +1,87 @@
-import {PixKeyException} from "@Exceptions/PixKeyException";
-import {OperaException} from "@Exceptions/OperaException";
 import {BaseException} from "@Exceptions/BaseException";
-import {BankException} from "@Exceptions/BankException";
-import {CardException} from "@Exceptions/CardException";
 import {EnumUtil} from "@Utils/EnumUtil";
 import {EnumCard} from "@Enums/EnumCard";
 import {EnumBankAccType} from "@Enums/EnumBankAccType";
 import {EnumBanks} from "@Enums/EnumBanks";
 import {EnumPix} from "@Enums/EnumPix";
+import {OperaException} from "@Exceptions/OperaException";
+import {PixKeyException} from "@Exceptions/PixKeyException";
+import {CardException} from "@Exceptions/CardException";
+import {BankException} from "@Exceptions/BankException";
 
 describe("EnumUtil", () => {
-    const excepts = {
-        base: new BaseException(""),
-        bank: new BankException(""),
-        card: new CardException(""),
-        opera: new OperaException(""),
-        pix: new PixKeyException("")
-    };
+    test("Positive Enum Found", () => {
+        const message = "try error found in enum";
+        const except = new BaseException(message);
 
-    let message: string = "";
-
-    test("Positive Enum", () => {
         const testSuccess = expect(() => {
-            EnumUtil.checkEnumKey<BaseException>("VIRTUAL", EnumCard, excepts.base);
+            EnumUtil.checkEnumKey<BaseException>("VIRTUAL", EnumCard, except);
+            EnumUtil.checkEnumKey<BaseException>("CHECKING", EnumBankAccType, except);
+            EnumUtil.checkEnumKey<BaseException>("EMAIL", EnumPix, except);
+            EnumUtil.checkEnumKey<BaseException>("JP_MORGAN", EnumBanks, except);
         });
 
-        testSuccess.not.toThrow(excepts.base);
+        testSuccess.not.toThrow(except);
+        testSuccess.not.toThrow(message);
     });
 
     test("BaseException Handled", () => {
-        message = "invalid card type found";
-        excepts.base.message = message;
+        const message = "invalid card type found";
+        const except = new BaseException(message);
 
         const testExcept = expect(() => {
-            EnumUtil.checkEnumKey<BaseException>("PAYMENT", EnumCard, excepts.base);
+            EnumUtil.checkEnumKey<BaseException>("PAYMENT", EnumCard, except);
         });
 
+        testExcept.toThrow(except);
         testExcept.toThrow(message);
-        testExcept.toThrow(excepts.base);
     });
 
     test("BankException Handled", () => {
-        message = "invalid bank type found";
-        excepts.bank.message = message;
+        const message = "invalid bank type found";
+        const except = new BankException(message);
 
         const testExcept = expect(() => {
-            EnumUtil.checkEnumKey<BankException>("VIRTUAL", EnumBankAccType, excepts.bank);
+            EnumUtil.checkEnumKey<BankException>("VIRTUAL", EnumBankAccType, except);
         });
 
+        testExcept.toThrow(except);
         testExcept.toThrow(message);
-        testExcept.toThrow(excepts.bank);
     });
 
     test("CardException Handled", () => {
-        message = "invalid card type found";
-        excepts.card.message = message;
+        const message = "invalid card type found";
+        const except = new CardException(message);
 
         const testExcept = expect(() => {
-            EnumUtil.checkEnumKey<CardException>("MASTERCARD", EnumCard, excepts.card);
+            EnumUtil.checkEnumKey<CardException>("MASTERCARD", EnumCard, except);
         });
 
+        testExcept.toThrow(except);
         testExcept.toThrow(message);
-        testExcept.toThrow(excepts.card);
     });
 
     test("OperaException Handled", () => {
-        message = "invalid opera type found";
-        excepts.opera.message = message;
+        const message = "invalid opera type found";
+        const except = new OperaException(message);
 
         const testExcept = expect(() => {
-            EnumUtil.checkEnumKey<OperaException>("VIRTUAL", EnumBanks, excepts.opera);
+            EnumUtil.checkEnumKey<OperaException>("VIRTUAL", EnumBanks, except);
         });
 
+        testExcept.toThrow(except);
         testExcept.toThrow(message);
-        testExcept.toThrow(excepts.opera);
     });
 
     test("PixKeyException Handled", () => {
-        message = "invalid pix key type found";
-        excepts.pix.message = message;
+        const message = "invalid pix key type found";
+        const except = new PixKeyException(message);
 
         const testExcept = expect(() => {
-            EnumUtil.checkEnumKey<PixKeyException>("CHECKING", EnumPix, excepts.pix);
+            EnumUtil.checkEnumKey<PixKeyException>("CHECKING", EnumPix, except);
         });
 
+        testExcept.toThrow(except);
         testExcept.toThrow(message);
-        testExcept.toThrow(excepts.pix);
     })
 });

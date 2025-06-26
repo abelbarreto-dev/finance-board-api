@@ -6,12 +6,12 @@ export enum EnumBanks {
     HSBC = "HSBC",
     CITI = "CITI",
     BCO = "BCO",
-    BANCO_DO_BRASIL = "BANCO DO BRASIL",
+    BANCO_DO_BRASIL = "BANCO_DO_BRASIL",
     NUBANK = "NUBANK",
     INTER = "INTER",
     WILLBANK = "WILLBANK",
     PICPAY = "PICPAY",
     C6BANK = "C6BANK",
-    BTG_PACTUAL = "BTG PACTUAL",
-    JP_MORGAN = "JP MORGAN"
+    BTG_PACTUAL = "BTG_PACTUAL",
+    JP_MORGAN = "JP_MORGAN"
 }

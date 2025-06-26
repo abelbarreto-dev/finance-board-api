@@ -17,14 +17,14 @@ enum EnumBanks {
   HSBC
   CITI
   BCO
-  BANCO_DO_BRASIL @map("BANCO DO BRASIL")
+  BANCO_DO_BRASIL
   NUBANK
   INTER
   WILLBANK
   PICPAY
   C6BANK
-  BTG_PACTUAL     @map("BTG PACTUAL")
-  JP_MORGAN       @map("JP MORGAN")
+  BTG_PACTUAL
+  JP_MORGAN
 }
 
 enum EnumFinance {

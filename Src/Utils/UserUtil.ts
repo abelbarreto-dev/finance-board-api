@@ -1,6 +1,8 @@
 import {UserDTO} from "@Dtos/UserDTO";
 import {UserException} from "@Exceptions/UserException";
 import {WordUtil} from "@Utils/WordUtil";
+import {MobileUtil} from "@Utils/MobileUtil";
+import {EmailUtil} from "@Utils/EmailUtil";
 
 export class UserUtil {
     private static checkFirstName(name: string): void {
@@ -26,13 +28,9 @@ export class UserUtil {
     }
 
     private static checkEmail(email: string): void {
-        const regEmail = (
-            /^[a-z][a-z-_0-9.]{1,254}[a-z0-9]@[a-z0-9]{1,16}?.[a-z]{2,3}.[a-z0-9]{2,3}$/
-        );
-
         const except = new UserException("invalid characters found in email or length");
 
-        if (email.match(regEmail) === null) throw except
+        EmailUtil.checkEmail<UserException>(email, except);
     }
 
     private static checkPassword(password: string): void {
@@ -47,13 +45,9 @@ export class UserUtil {
         if (!mobile) return;
         const phoneNumber: string = mobile.toString();
 
-        const regMobile = (
-            /^[0-9]{11,13}$/
-        );
-
         const except = new UserException("invalid characters found in mobile phone number or length");
 
-        if (phoneNumber.match(regMobile) === null) throw except;
+        MobileUtil.checkMobile<UserException>(phoneNumber, except);
     }
 
     public static checkUser(user: UserDTO): void {

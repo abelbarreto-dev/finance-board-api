@@ -3,6 +3,8 @@ import {PixKeyDTO} from "@Dtos/PixKeyDTO";
 import {EnumPix} from "@Enums/EnumPix";
 import {WordUtil} from "@Utils/WordUtil";
 import {EnumUtil} from "@Utils/EnumUtil";
+import {MobileUtil} from "@Utils/MobileUtil";
+import {EmailUtil} from "@Utils/EmailUtil";
 
 export class PixKeyUtil {
     private static checkPixKeyName(pixKeyName: string): void {
@@ -12,13 +14,9 @@ export class PixKeyUtil {
     }
 
     private static checkEmail(email: string): void {
-        const regEmail = (
-            /^[a-z][a-z-_0-9.]{1,254}[a-z0-9]@[a-z0-9]{1,16}?.[a-z]{2,3}.[a-z0-9]{2,3}$/
-        );
-
         const except = new PixKeyException("invalid email pix key characters or length");
 
-        if (email.match(regEmail) === null) throw except;
+        EmailUtil.checkEmail<PixKeyException>(email, except);
     }
 
     private static checkCpf(cpf: string): void {
@@ -42,13 +40,9 @@ export class PixKeyUtil {
     }
 
     private static checkMobile(mobile: string): void {
-        const regMobile = (
-            /^[0-9]{11,13}$/
-        );
-
         const except = new PixKeyException("invalid mobile phone number pix key characters or length");
 
-        if (mobile.match(regMobile) === null) throw except;
+        MobileUtil.checkMobile<PixKeyException>(mobile, except);
     }
 
     private static checkRandom(random: string): void {

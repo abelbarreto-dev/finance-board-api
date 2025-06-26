@@ -6,7 +6,7 @@ import {WordUtil} from "@Utils/WordUtil";
 
 export class MoneyUtil {
     private static checkDescription(description: string): void {
-        const except = new MoneyException("invalid characters found in money box description");
+        const except = new MoneyException("invalid characters or length found in money box description");
 
         WordUtil.checkDescription<MoneyException>(description, 253, except);
     }

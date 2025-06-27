@@ -33,78 +33,49 @@ const cardDTOSuccessBalanceOff: CardDTO = {
     reversal: false
 };
 
-const cardDTOFailedFlag = {
-    bankId: 1,
-    description: "main card",
+const cardDTOFailedFlag: CardDTO = {
+    ...cardDTOSuccess,
     cardType: EnumCard.PHYSICAL,
-    cardFlag: "MANCHESTER",
-    cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: 856.64,
-    reversal: false
+    cardFlag: "MANCHESTER" as EnumFlag
 };
 
-const cardDTOFailedType = {
-    bankId: 1,
-    description: "main card",
-    cardType: "DIGITAL",
-    cardFlag: EnumFlag.AMEX,
-    cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: 856.64,
-    reversal: false
+const cardDTOFailedType: CardDTO = {
+    ...cardDTOSuccess,
+    cardType: "DIGITAL" as EnumCard,
+    cardFlag: EnumFlag.AMEX
 };
 
 const cardDTOFailedDescription: CardDTO = {
-    bankId: 1,
+    ...cardDTOSuccess,
     description: "#Main card",
     cardType: EnumCard.TEMPORARY,
-    cardFlag: EnumFlag.AMEX,
-    cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: 856.64,
-    reversal: false
+    cardFlag: EnumFlag.AMEX
 };
 
 const cardDTOFailedCardLimit: CardDTO = {
-    bankId: 1,
-    description: "Main card",
+    ...cardDTOSuccess,
     cardType: EnumCard.TEMPORARY,
     cardFlag: EnumFlag.AMEX,
-    cardLimit: -1500,
-    currentLimit: 1500,
-    balanceValue: 856.64,
-    reversal: false
+    cardLimit: -1500
 };
 
 const cardDTOFailedCardCurrentLimit: CardDTO = {
-    bankId: 1,
-    description: "Main card",
-    cardType: EnumCard.TEMPORARY,
-    cardFlag: EnumFlag.AMEX,
-    cardLimit: 1500,
-    currentLimit: -1500,
-    balanceValue: 856.64,
-    reversal: false
+    ...cardDTOSuccess,
+    currentLimit: -1500
 };
 
 const cardDTOFailedCardBalance: CardDTO = {
-    bankId: 1,
-    description: "Main card",
-    cardType: EnumCard.TEMPORARY,
+    ...cardDTOSuccess,
     cardFlag: EnumFlag.AMEX,
-    cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: -856.64,
-    reversal: false
+    balanceValue: -856.64
 };
 
 export const cardDTOS = {
     success: cardDTOSuccess,
     successNotReversal: cardDTOSuccessReversalOff,
     successNotBalance: cardDTOSuccessBalanceOff,
-    errorFlag: cardDTOFailedFlag as CardDTO,
-    errorType: cardDTOFailedType as CardDTO,
+    errorFlag: cardDTOFailedFlag,
+    errorType: cardDTOFailedType,
     errorDescription: cardDTOFailedDescription,
     errorLimit: cardDTOFailedCardLimit,
     errorCurrentLimit: cardDTOFailedCardCurrentLimit,

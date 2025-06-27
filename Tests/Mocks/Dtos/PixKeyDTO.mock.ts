@@ -9,29 +9,25 @@ const pixKeyDTOSuccessCPF: PixKeyDTO = {
 };
 
 const pixKeyDTOSuccessCNPJ: PixKeyDTO = {
-    bankId: 1,
-    name: "real financer",
+    ...pixKeyDTOSuccessCPF,
     typeKey: EnumPix.CNPJ,
     pixKey: "11122233344555"
 };
 
 const pixKeyDTOSuccessEMAIL: PixKeyDTO = {
-    bankId: 1,
-    name: "real financer",
+    ...pixKeyDTOSuccessCPF,
     typeKey: EnumPix.EMAIL,
     pixKey: "paulo.nunes@gmail.com"
 };
 
 const pixKeyDTOSuccessPHONE: PixKeyDTO = {
-    bankId: 1,
-    name: "real financer",
+    ...pixKeyDTOSuccessCPF,
     typeKey: EnumPix.PHONE,
     pixKey: "5511974683072"
 };
 
 const pixKeyDTOSuccessRANDOM: PixKeyDTO = {
-    bankId: 1,
-    name: "real financer",
+    ...pixKeyDTOSuccessCPF,
     typeKey: EnumPix.RANDOM,
     pixKey: "JAfdn5a9-5a95-4a9d-a5K1-92a5d5A95aFd"
 };

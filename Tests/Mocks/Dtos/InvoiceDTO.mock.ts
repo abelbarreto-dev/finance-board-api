@@ -1,18 +1,15 @@
 import {InvoiceDTO} from "@Dtos/InvoiceDTO";
 
-const invoiceSuccess: InvoiceDTO = {
-    cardId: 1,
-    description: "test invoice",
-    quantity: 12,
-    invoicePaid: 12,
-    balanceValue: 85.70,
-};
-
 const invoiceSuccessNotDescription: InvoiceDTO = {
     cardId: 1,
     quantity: 12,
     invoicePaid: 12,
     balanceValue: 85.70,
+};
+
+const invoiceSuccess: InvoiceDTO = {
+    ...invoiceSuccessNotDescription,
+    description: "test invoice"
 };
 
 const invoiceFailedDescription: InvoiceDTO = {

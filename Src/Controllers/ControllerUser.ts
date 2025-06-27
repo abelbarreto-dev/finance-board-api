@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
-import {BaseException} from "@Exceptions/BaseException";
 import {UserDTO} from "@Dtos/UserDTO";
 import {ServiceUser} from "@Services/ServiceUser";
 import {User} from "../Models/User";
+import {HttpUtil} from "@Utils/HttpUtil";
 
 export class ControllerUser {
     private readonly serviceUser: ServiceUser;
@@ -17,13 +17,12 @@ export class ControllerUser {
 
             const result = await this.serviceUser.saveUser(userDto);
 
-            return response.json(result);
+            return await HttpUtil.successResponse<User>(response, result, 201);
         }
-        catch (error: any) {
-            const baseException = error as BaseException;
-            return response.status(baseException.code).json({
-                message: baseException.message
-            });
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
         }
     }
 
@@ -33,13 +32,12 @@ export class ControllerUser {
 
             const result = await this.serviceUser.getUserLogin(userDto);
 
-            return response.json(result);
+            return await HttpUtil.successResponse<User>(response, result, 200);
         }
-        catch (error: any) {
-            const baseException = error as BaseException;
-            return response.status(baseException.code).json({
-                message: baseException.message
-            });
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
         }
     }
 
@@ -51,13 +49,12 @@ export class ControllerUser {
 
             const result = await this.serviceUser.updateUser(userId, userDto);
 
-            return response.json(result);
+            return await HttpUtil.successResponse<User>(response, result, 200);
         }
-        catch (error: any) {
-            const baseException = error as BaseException;
-            return response.status(baseException.code).json({
-                message: baseException.message
-            });
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
         }
     }
 
@@ -67,13 +64,12 @@ export class ControllerUser {
 
             const result: User = await this.serviceUser.deleteUser(user);
 
-            return response.json(result);
+            return await HttpUtil.successResponse<User>(response, result, 200);
         }
-        catch (error: any) {
-            const baseException = error as BaseException;
-            return response.status(baseException.code).json({
-                message: baseException.message
-            });
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
         }
     }
 
@@ -83,13 +79,12 @@ export class ControllerUser {
 
             const result = await this.serviceUser.getUserLogin(userDto);
 
-            return response.json(result);
+            return await HttpUtil.successResponse<User>(response, result, 200);
         }
-        catch (error: any) {
-            const baseException = error as BaseException;
-            return response.status(baseException.code).json({
-                message: baseException.message
-            });
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
         }
     }
 }

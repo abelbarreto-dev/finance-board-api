@@ -92,10 +92,16 @@ describe("Money Util -> MoneyBoxDTO", () => {
 
         const testExcept = expect(() => {
             MoneyUtil.checkMoneyBox(moneyBoxDTOS.failedDescriptionLength);
-            MoneyUtil.checkMoneyBox(moneyBoxDTOS.failedDescriptionLengthMin);
         });
 
         testExcept.toThrow(except);
         testExcept.toThrow(message);
+
+        const testExceptMin = expect(() => {
+            MoneyUtil.checkMoneyBox(moneyBoxDTOS.failedDescriptionLengthMin);
+        });
+
+        testExceptMin.toThrow(except);
+        testExceptMin.toThrow(message);
     });
 });

@@ -16,4 +16,8 @@ export class ControllerUser {
     async deleteUser(request: Request, response: Response): Promise<Response> {
         return response.json();
     }
+
+    async logout(request: Request, response: Response): Promise<Response> {
+        return response.json();
+    }
 }

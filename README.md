@@ -3,9 +3,27 @@ Take care your finance by yourself. This project is being built as an API to man
 
 The main stack used is TypeScript.
 
-You'll find about 45 routes. [TODO]
+You'll find about 46 routes. [TODO]
 
 The user is *soft-deleted* when you chose that option if logged.
+
+## How To Test?
+* **About Unit Testing**:
+Each feature built at that project has its own unit tests cases;
+  * This project uses [Ts-Jest](https://www.npmjs.com/package/ts-jest) as test provider;
+* To run, you can just type it on console:
+
+```commandline
+npm test
+```
+
+Or
+
+```commandline
+npx jest
+```
+
+For more information, our tests are found at [Tests Package](Tests/).
 
 ## Packages Structure
 Here, I present you our package structure.
@@ -22,6 +40,11 @@ Src/
 ├──Services/
 ├──Utils
 Tests/
+├──Mocks/
+├──├──Dtos/
+├──├──General/
+├──├──Models/
+├──Services/
 ├──Utils/
 env.example
 .gitignore

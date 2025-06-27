@@ -56,7 +56,9 @@ export class BankUtil {
         this.checkAgencyNumber(bank.numbAgency);
         this.checkEnumTypeAccount(bank.accountType);
 
-        const except = new BankException("invalid bank balance value found, bank balance value must be positive");
+        const except = new BankException(
+            "invalid bank balance value found, bank balance value must be positive"
+        );
 
         BalanceUtil.checkBalance<BankException>(
             bank.balanceValue, except

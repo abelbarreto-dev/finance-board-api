@@ -5,7 +5,7 @@ export class WordUtil {
         name: string, except: T
     ): void {
         const regLastName = (
-            /^[A-Z][a-zA-Z- .]{1,30}[a-zA-Z.]$/
+            /^[A-Z][a-zA-Z- .]{0,30}[a-zA-Z.]$/
         );
 
         if (name.match(regLastName) === null) throw except;

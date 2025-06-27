@@ -54,7 +54,7 @@ export class OperaBankUtil {
         this.checkEnumValue(operaBankBox.typeTransfer, EnumFinance, "type transfer");
 
         const except = new OperaException(
-            "invalid bank operation objective value found, bank operation objective value must be positive"
+            "invalid bank box operation balance value found, bank operation balance value must be positive"
         );
 
         BalanceUtil.checkBalance<OperaException>(operaBankBox.balanceValue, except);

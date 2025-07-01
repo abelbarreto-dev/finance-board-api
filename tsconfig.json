@@ -35,6 +35,7 @@
       "@Dtos/*": ["Src/Dtos/*"],
       "@Enums/*": ["Src/Enums/*"],
       "@Exceptions/*": ["Src/Exceptions/*"],
+      "@Models/*": ["Src/Models/*"],
       "@Repositories/*": ["Src/Repositories/*"],
       "@Routes/*": ["Src/Routes/*"],
       "@Services/*": ["Src/Services/*"],

@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {UserDTO} from "@Dtos/UserDTO";
 import {ServiceUser} from "@Services/ServiceUser";
-import {User} from "../Models/User";
+import {User} from "@Models/User";
 import {HttpUtil} from "@Utils/HttpUtil";
 
 export class ControllerUser {

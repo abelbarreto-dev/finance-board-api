@@ -1,5 +1,5 @@
 import {UserDTO} from "@Dtos/UserDTO";
-import {User} from "../Models/User";
+import {User} from "@Models/User";
 import {UserUtil} from "@Utils/UserUtil";
 import {genSalt, hash} from "bcrypt";
 import * as process from "node:process";

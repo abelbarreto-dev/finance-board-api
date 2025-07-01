@@ -1,5 +1,5 @@
 import {UserDTO} from "@Dtos/UserDTO";
-import {User} from "../Models/User";
+import {User} from "@Models/User";
 
 export class RepositoryUser {
     async saveUser(userDTO: UserDTO): Promise<User> {}

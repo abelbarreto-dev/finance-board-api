@@ -77,7 +77,7 @@ export class ControllerUser {
         try {
             const userDto: User = {...request.body} as User;
 
-            const result = await this.serviceUser.getUserLogin(userDto);
+            const result = await this.serviceUser.logout(userDto);
 
             return await HttpUtil.successResponse<User>(response, result, 200);
         }

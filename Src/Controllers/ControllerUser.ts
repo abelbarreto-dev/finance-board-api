@@ -41,6 +41,21 @@ export class ControllerUser {
         }
     }
 
+    async reactiveUser(request: Request, response: Response): Promise<Response> {
+        try {
+            const userDto: UserDTO = {...request.body} as UserDTO;
+
+            const result = await this.serviceUser.reactiveUser(userDto);
+
+            return await HttpUtil.successResponse<User>(response, result, 200);
+        }
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
+        }
+    }
+
     async updateUser(request: Request, response: Response): Promise<Response> {
         try {
             const userDto: UserDTO = {...request.body} as UserDTO;
@@ -58,11 +73,12 @@ export class ControllerUser {
         }
     }
 
-    async deleteUser(request: Request, response: Response): Promise<Response> {
+    async deactivateUser(request: Request, response: Response): Promise<Response> {
         try {
-            const user: User = {...request.body} as User;
+            const id = request.params.id;
+            const userId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
-            const result: User = await this.serviceUser.deleteUser(user);
+            const result: User = await this.serviceUser.deactivateUser(userId);
 
             return await HttpUtil.successResponse<User>(response, result, 200);
         }

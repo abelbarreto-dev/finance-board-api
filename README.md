@@ -3,7 +3,7 @@ Take care your finance by yourself. This project is being built as an API to man
 
 The main stack used is TypeScript.
 
-You'll find about 46 routes. [TODO]
+You'll find about 47 routes. [TODO]
 
 The user is *soft-deleted* when you chose that option if logged.
 
@@ -29,6 +29,8 @@ For more information, our tests are found at [Tests Package](Tests/).
 Here, I present you our package structure.
 
 ```commandline
+prisma/
+├──migrations/
 Src/
 ├──Controllers/
 ├──Dtos

@@ -47,14 +47,25 @@ export class ServiceUser {
         return await this.repository.getUserLogin(userDTO);
     }
 
+    async reactiveUser(userDTO: UserDTO): Promise<User> {
+        const passwdCrypted = await hash(userDTO.password, this.salt);
+
+        userDTO = {
+            ...userDTO,
+            password: passwdCrypted
+        } as UserDTO;
+
+        return await this.repository.reactiveUser(userDTO);
+    }
+
     async updateUser(id: number, userDTO: UserDTO): Promise<User> {
         UserUtil.checkUser(userDTO);
 
         return await this.repository.updateUser(id, userDTO);
     }
 
-    async deleteUser(user: User): Promise<User> {
-        return await this.repository.deleteUser(user);
+    async deactivateUser(id: number): Promise<User> {
+        return await this.repository.deactivateUser(id);
     }
 
     async logout(user: User): Promise<User> {

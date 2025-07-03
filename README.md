@@ -3,7 +3,7 @@ Take care your finance by yourself. This project is being built as an API to man
 
 The main stack used is TypeScript.
 
-You'll find about 48 routes. [TODO]
+You'll find about 49 routes. [TODO]
 
 The user is *soft-deleted* when you chose that option if logged.
 

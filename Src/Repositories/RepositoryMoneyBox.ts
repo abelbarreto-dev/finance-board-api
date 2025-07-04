@@ -107,9 +107,9 @@ export class RepositoryMoneyBox {
                 }
 
                 const moneyBoxCents = (moneyBoxDTO.balanceValue * 10) * 10;
-                const moneyCents = (money.balanceValue * 10) * 10;
+                const moneyValueCents = (money.balanceValue * 10) * 10;
 
-                money.balanceValue = ((moneyCents + moneyBoxCents) / 10) / 10;
+                money.balanceValue = ((moneyValueCents - moneyBoxCents) / 10) / 10;
 
                 await this.prisma.money.update({
                     data: money,

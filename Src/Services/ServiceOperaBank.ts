@@ -23,10 +23,4 @@ export class ServiceOperaBank {
     async getOperaBanks(bankId: number): Promise<OperaBank[]> {
         return await this.repository.getOperaBanks(bankId);
     }
-
-    async updateOperaBank(operaBankId: number, operaBankDTO: OperaBankDTO): Promise<OperaBank> {
-        OperaBankUtil.checkOperaBank(operaBankDTO);
-
-        return await this.repository.updateOperaBank(operaBankId, operaBankDTO);
-    }
 }

@@ -44,21 +44,4 @@ export class ControllerOperaBank {
             return await HttpUtil.exceptionResponse(error, response);
         }
     }
-
-    async updateOperaBank(request: Request, response: Response): Promise<Response> {
-        try {
-            const operaBankDTO = {...request.body} as OperaBankDTO;
-            const id = request.params.id;
-            const operaBankId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
-
-            const operaBank = await this.service.updateOperaBank(operaBankId, operaBankDTO);
-
-            return await HttpUtil.successResponse(response, operaBank, 200);
-        }
-        catch (error: unknown) {
-            console.error(error);
-
-            return await HttpUtil.exceptionResponse(error, response);
-        }
-    }
 }

@@ -8,8 +8,4 @@ export class ControllerOperaMoney {
     async getOperaMoney(request: Request, response: Response): Promise<Response> {
         return response.json();
     }
-
-    async updateOperaMoney(request: Request, response: Response): Promise<Response> {
-        return response.json();
-    }
 }

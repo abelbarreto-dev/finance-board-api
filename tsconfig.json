@@ -36,12 +36,13 @@
       "@Enums/*": ["Src/Enums/*"],
       "@Exceptions/*": ["Src/Exceptions/*"],
       "@Models/*": ["Src/Models/*"],
+      "@Middlewares/*": ["Src/Middlewares/*"],
       "@Repositories/*": ["Src/Repositories/*"],
       "@Routes/*": ["Src/Routes/*"],
       "@Services/*": ["Src/Services/*"],
       "@Utils/*": ["Src/Utils/*"],
       "@MocksDtos/*": ["Tests/Mocks/Dtos/*"],
-      "@MocksModels/*": ["Tests/Mocks/Models/*"]
+      "@MocksModels/*": ["Tests/Mocks/Models/*"],
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

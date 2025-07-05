@@ -57,11 +57,9 @@ export class RepositoryOperaMoney {
                     where: {id: operaMoneyDTO.moneyId}
                 });
 
-                const operaMoney = await this.prisma.operaMoney.create({
+                return await this.prisma.operaMoney.create({
                     data: operaMoneyDTO
-                });
-
-                return operaMoney as unknown as OperaMoney;
+                }) as unknown as OperaMoney;
             });
         }
         catch (error: unknown) {

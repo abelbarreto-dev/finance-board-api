@@ -13,22 +13,6 @@ describe("CardUtil", () => {
         testSuccess.not.toThrow(CardException);
     });
 
-    test("Card Util Success Not Reversal", () => {
-        const testSuccess = expect(() => {
-            CardUtil.checkCard(cardDTOS.successNotReversal);
-        });
-
-        testSuccess.not.toThrow(CardException);
-    });
-
-    test("Card Util Success Not Balance", () => {
-        const testSuccess = expect(() => {
-            CardUtil.checkCard(cardDTOS.successNotBalance);
-        });
-
-        testSuccess.not.toThrow(CardException);
-    });
-
     test("Card Util Error Flag - CardException Handled", () => {
         message = "invalid card flag found";
 
@@ -78,17 +62,6 @@ describe("CardUtil", () => {
 
         const testExcept = expect(() => {
             CardUtil.checkCard(cardDTOS.errorCurrentLimit);
-        });
-
-        testExcept.toThrow(message);
-        testExcept.toThrow(CardException);
-    });
-
-    test("Card Util Error Card Balance - CardException Handled", () => {
-        message = "invalid card balance value found, card balance value must be positive";
-
-        const testExcept = expect(() => {
-            CardUtil.checkCard(cardDTOS.errorBalance);
         });
 
         testExcept.toThrow(message);

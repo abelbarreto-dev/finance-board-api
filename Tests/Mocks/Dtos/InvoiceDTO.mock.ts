@@ -5,10 +5,12 @@ const invoiceSuccessNotDescription: InvoiceDTO = {
     quantity: 12,
     invoicePaid: 12,
     balanceValue: 85.70,
+    reversal: false
 };
 
 const invoiceSuccess: InvoiceDTO = {
     ...invoiceSuccessNotDescription,
+    reversal: true,
     description: "test invoice"
 };
 
@@ -26,11 +28,6 @@ const invoiceFailedQuantityAndPaid: InvoiceDTO = {
     ...invoiceSuccess,
     quantity: 5,
     invoicePaid: 7
-};
-
-const invoiceFailedBalance: InvoiceDTO = {
-    ...invoiceSuccess,
-    balanceValue: -85.70
 };
 
 export const invoiceDTOS = {

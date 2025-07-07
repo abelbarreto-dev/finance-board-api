@@ -8,29 +8,7 @@ const cardDTOSuccess: CardDTO = {
     cardType: EnumCard.PHYSICAL,
     cardFlag: EnumFlag.MASTERCARD,
     cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: 856.64,
-    reversal: false
-};
-
-const cardDTOSuccessReversalOff: CardDTO = {
-    bankId: 1,
-    description: "main card",
-    cardType: EnumCard.VIRTUAL,
-    cardFlag: EnumFlag.VISA,
-    cardLimit: 1500,
-    currentLimit: 1500,
-    balanceValue: 856.64
-};
-
-const cardDTOSuccessBalanceOff: CardDTO = {
-    bankId: 1,
-    description: "main card",
-    cardType: EnumCard.TEMPORARY,
-    cardFlag: EnumFlag.ELO,
-    cardLimit: 1500,
-    currentLimit: 1500,
-    reversal: false
+    currentLimit: 1500
 };
 
 const cardDTOFailedFlag: CardDTO = {
@@ -61,23 +39,15 @@ const cardDTOFailedCardLimit: CardDTO = {
 
 const cardDTOFailedCardCurrentLimit: CardDTO = {
     ...cardDTOSuccess,
+    cardFlag: EnumFlag.DINERS,
     currentLimit: -1500
-};
-
-const cardDTOFailedCardBalance: CardDTO = {
-    ...cardDTOSuccess,
-    cardFlag: EnumFlag.AMEX,
-    balanceValue: -856.64
 };
 
 export const cardDTOS = {
     success: cardDTOSuccess,
-    successNotReversal: cardDTOSuccessReversalOff,
-    successNotBalance: cardDTOSuccessBalanceOff,
     errorFlag: cardDTOFailedFlag,
     errorType: cardDTOFailedType,
     errorDescription: cardDTOFailedDescription,
     errorLimit: cardDTOFailedCardLimit,
-    errorCurrentLimit: cardDTOFailedCardCurrentLimit,
-    errorBalance: cardDTOFailedCardBalance,
+    errorCurrentLimit: cardDTOFailedCardCurrentLimit
 };

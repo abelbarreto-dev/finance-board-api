@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import {InvoiceDTO} from "@Dtos/InvoiceDTO";
 import {Invoice} from "@Models/Invoice";
 import {DatabaseException} from "@Exceptions/DatabaseException";
+import {Card} from "@Models/Card";
 
 export class RepositoryInvoice {
     private readonly _prisma: PrismaClient;
@@ -19,6 +20,29 @@ export class RepositoryInvoice {
             this.prisma.$connect();
 
             return await this.prisma.$transaction(async () => {
+                const card = await this.prisma.card.findFirst({
+                    where: {id: invoiceDTO.cardId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                }).then(card => {
+                    if (card) return card as unknown as Card;
+                    throw new DatabaseException("card not found", 404);
+                });
+
+                if (card.currentLimit < invoiceDTO.balanceValue) {
+                    throw new DatabaseException(
+                        "card current limit can not be negative",
+                        400
+                    );
+                }
+
+                card.currentLimit -= invoiceDTO.balanceValue;
+
+                await this.prisma.card.update({
+                    data: card,
+                    where: {id: card.id}
+                });
+
                 const invoice = await this.prisma.invoice.create({
                     data: invoiceDTO
                 });
@@ -78,12 +102,36 @@ export class RepositoryInvoice {
                 invoice.quantity = invoiceDTO.quantity;
                 invoice.invoicePaid = invoiceDTO.invoicePaid;
                 invoice.balanceValue = invoiceDTO.balanceValue;
+                invoice.reversal = invoiceDTO.reversal;
+
+                const card = await this.prisma.card.findFirst({
+                    where: {id: invoice.cardId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                }).then(card => {
+                    if (card) return card as unknown as Card;
+                    throw new DatabaseException("card not found", 404);
+                });
+
+                if (invoice.reversal) {
+                    card.currentLimit += invoice.balanceValue;
+                } else if (card.currentLimit < invoice.balanceValue) {
+                    throw new DatabaseException(
+                        "card current limit can not be negative",
+                        400
+                    );
+                } else {
+                    card.currentLimit -= invoice.balanceValue;
+                }
+
+                await this.prisma.card.update({
+                    data: card,
+                    where: {id: card.id}
+                });
 
                 const invoiceUpdated = await this.prisma.invoice.update({
                     data: invoice,
                     where: {id: invoiceId}
-                }).catch(error => {
-                    throw new DatabaseException(error.message, 500);
                 });
 
                 return invoiceUpdated as unknown as Invoice;

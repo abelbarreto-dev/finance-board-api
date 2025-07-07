@@ -17,7 +17,7 @@ export class ControllerInvoice {
     async saveInvoice(request: Request, response: Response): Promise<Response> {
         try {
             const invoiceDTO = {...request.body} as InvoiceDTO;
-            invoiceDTO.reversal = !!invoiceDTO.reversal;
+            invoiceDTO.reversal = false;
 
             const invoice = await this.service.saveInvoice(invoiceDTO);
 

@@ -18,11 +18,13 @@ export class RepositoryMoney {
         try {
             this.prisma.$connect();
 
-            const money = await this.prisma.money.create({
-                data: moneyDTO
-            });
+            return await this.prisma.$transaction(async () => {
+                const money = await this.prisma.money.create({
+                    data: moneyDTO
+                });
 
-            return {...money} as unknown as Money;
+                return {...money} as unknown as Money;
+            });
         }
         catch (error: unknown) {
             console.error(error);
@@ -59,19 +61,29 @@ export class RepositoryMoney {
         }
     }
 
-    async updateMoney(id: number, moneyDTO: MoneyDTO): Promise<Money> {
+    async updateMoney(moneyId: number, moneyDTO: MoneyDTO): Promise<Money> {
         try {
             this.prisma.$connect();
 
-            const money = await this.prisma.money.update({
-                data: moneyDTO,
-                where: {id: id}
-            }).then(money => {
-                if (money) return money;
-                throw new DatabaseException("error: money cash not found", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const money = await this.prisma.money.findFirst({
+                    where: {id: moneyId}
+                }).then(money => {
+                    if (money) return money as unknown as Money;
+                    throw new DatabaseException("money cash not found", 404);
+                });
 
-            return {...money} as unknown as Money;
+                money.balanceValue = moneyDTO.balanceValue;
+
+                const moneyUpdated = await this.prisma.money.update({
+                    data: money,
+                    where: {id: moneyId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                });
+
+                return moneyUpdated as unknown as Money;
+            });
         }
         catch (error: unknown) {
             console.error(error);

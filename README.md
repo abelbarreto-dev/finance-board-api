@@ -37,6 +37,7 @@ Src/
 ├──Enums/
 ├──Exceptions/
 ├──Models/
+├──Middlewares/
 ├──Repositories/
 ├──Routes/
 ├──Services/

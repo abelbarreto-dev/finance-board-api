@@ -18,11 +18,13 @@ export class RepositoryPixKey{
         try {
             this.prisma.$connect();
 
-            const pixKey = await this.prisma.pixKey.create({
-                data: pixKeyDTO
-            });
+            return await this.prisma.$transaction(async () => {
+                const pixKey = await this.prisma.pixKey.create({
+                    data: pixKeyDTO
+                });
 
-            return {...pixKey} as unknown as PixKey;
+                return {...pixKey} as unknown as PixKey;
+            });
         }
         catch (error: unknown) {
             console.error(error);
@@ -57,19 +59,33 @@ export class RepositoryPixKey{
         }
     }
 
-    async updatePixKey(idPixKey: number, pixKeyDTO: PixKeyDTO): Promise<PixKey> {
+    async updatePixKey(pixKeyId: number, pixKeyDTO: PixKeyDTO): Promise<PixKey> {
         try {
             this.prisma.$connect();
 
-            const pixKey = await this.prisma.pixKey.update({
-                data: pixKeyDTO,
-                where: {id: idPixKey}
-            }).then(pixKey => {
-                if (pixKey) return pixKey;
-                throw new DatabaseException("error: pix key not found", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const pixKey = await this.prisma.pixKey.findFirst({
+                    where: {id: pixKeyId}
+                }).then(pixKey => {
+                    if (pixKey) return pixKey as unknown as PixKey;
+                    throw new DatabaseException("pix key not found", 404);
+                });
 
-            return {...pixKey} as unknown as PixKey;
+                pixKey.bankId = pixKeyDTO.bankId;
+                pixKey.name = pixKeyDTO.name;
+                pixKey.typeKey = pixKeyDTO.typeKey;
+                pixKey.pixKey = pixKeyDTO.pixKey;
+
+                const pixKeyUpdated = await this.prisma.pixKey.update({
+                    data: pixKey,
+                    where: {id: pixKeyId}
+                }).catch(error => {
+                    console.error(error);
+                    throw new DatabaseException("error to update pix key at database", 500);
+                });
+
+                return {...pixKeyUpdated} as unknown as PixKey;
+            });
         }
         catch (error: unknown) {
             console.error(error);
@@ -85,14 +101,18 @@ export class RepositoryPixKey{
         try {
             this.prisma.$connect();
 
-            const pixKey = await this.prisma.pixKey.delete({
-                where: {id: idPixKey}
-            }).then(pixKey => {
-                if (pixKey) return pixKey;
-                throw new DatabaseException("error: pix key not found", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const pixKey = await this.prisma.pixKey.delete({
+                    where: {id: idPixKey}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                }).then(pixKey => {
+                    if (pixKey) return pixKey;
+                    throw new DatabaseException("pix key not found", 404);
+                });
 
-            return {...pixKey} as unknown as PixKey;
+                return pixKey as unknown as PixKey;
+            });
         }
         catch (error: unknown) {
             console.error(error);

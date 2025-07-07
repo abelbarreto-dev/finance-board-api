@@ -18,11 +18,13 @@ export class RepositoryInvoice {
         try {
             this.prisma.$connect();
 
-            const invoice = await this.prisma.invoice.create({
-                data: invoiceDTO
-            });
+            return await this.prisma.$transaction(async () => {
+                const invoice = await this.prisma.invoice.create({
+                    data: invoiceDTO
+                });
 
-            return {...invoice} as unknown as Invoice;
+                return {...invoice} as unknown as Invoice;
+            });
         }
         catch (error: unknown) {
             console.error(error);
@@ -63,15 +65,29 @@ export class RepositoryInvoice {
         try {
             this.prisma.$connect();
 
-            const invoice = await this.prisma.invoice.update({
-                data: invoiceDTO,
-                where: {id: invoiceId}
-            }).then(invoice => {
-                if (invoice) return invoice;
-                throw new DatabaseException("error: invoice not found", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const invoice = await this.prisma.invoice.findFirst({
+                    where: {id: invoiceId}
+                }).then(invoice => {
+                    if (invoice) return invoice as unknown as Invoice;
+                    throw new DatabaseException("invoice not found", 404);
+                });
 
-            return {...invoice} as unknown as Invoice;
+                invoice.cardId = invoiceDTO.cardId;
+                invoice.description = invoiceDTO.description;
+                invoice.quantity = invoiceDTO.quantity;
+                invoice.invoicePaid = invoiceDTO.invoicePaid;
+                invoice.balanceValue = invoiceDTO.balanceValue;
+
+                const invoiceUpdated = await this.prisma.invoice.update({
+                    data: invoice,
+                    where: {id: invoiceId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                });
+
+                return invoiceUpdated as unknown as Invoice;
+            });
         }
         catch (error: unknown) {
             console.error(error);

@@ -24,9 +24,9 @@ export class ServiceMoney {
         return await this.repository.getMoney(userId);
     }
 
-    async updateMoney(id: number, moneyDTO: MoneyDTO): Promise<Money> {
+    async updateMoney(moneyId: number, moneyDTO: MoneyDTO): Promise<Money> {
         MoneyUtil.checkMoney(moneyDTO);
 
-        return await this.repository.updateMoney(id, moneyDTO);
+        return await this.repository.updateMoney(moneyId, moneyDTO);
     }
 }

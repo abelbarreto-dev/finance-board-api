@@ -140,6 +140,8 @@ export class RepositoryMoneyBox {
 
             const moneyBox = await this.prisma.moneyBox.delete({
                 where: {id: moneyBoxId}
+            }).catch(error => {
+                throw new DatabaseException(error.message, 404);
             }).then(moneyBox => {
                 if (moneyBox) return moneyBox;
                 throw new DatabaseException("money box not found", 404);

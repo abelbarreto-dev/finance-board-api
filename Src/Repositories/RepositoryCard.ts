@@ -18,11 +18,13 @@ export class RepositoryCard {
         try {
             this.prisma.$connect();
 
-            const card = await this.prisma.card.create({
-                data: cardDTO
-            });
+            return await this.prisma.$transaction(async () => {
+                const card = await this.prisma.card.create({
+                    data: cardDTO
+                });
 
-            return card as unknown as Card;
+                return card as unknown as Card;
+            });
         }
         catch (error: unknown) {
             console.error(error);
@@ -88,17 +90,31 @@ export class RepositoryCard {
         try {
             this.prisma.$connect();
 
-            const card = await this.prisma.card.update({
-                data: cardDTO,
-                where: {
-                    id: cardId
-                }
-            }).then(card => {
-                if (card) return card;
-                throw new DatabaseException("card not found", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const card = await this.prisma.card.findFirst({
+                    where: {id: cardId}
+                }).then(card => {
+                    if (card) return card as unknown as Card;
+                    throw new DatabaseException("card not found", 404);
+                });
 
-            return card as unknown as Card;
+                card.description = cardDTO.description;
+                card.cardType = cardDTO.cardType;
+                card.cardFlag = cardDTO.cardFlag;
+                card.cardLimit = cardDTO.cardLimit;
+                card.currentLimit = cardDTO.currentLimit;
+                card.balanceValue = cardDTO.balanceValue;
+                card.reversal = cardDTO.reversal;
+
+                const cardUpdated = await this.prisma.card.update({
+                    data: card,
+                    where: {id: cardId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                });
+
+                return cardUpdated as unknown as Card;
+            });
         }
         catch (error: unknown) {
             console.error(error);

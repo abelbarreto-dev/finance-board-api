@@ -18,11 +18,13 @@ export class RepositoryBank {
         try {
             this.prisma.$connect();
 
-            const bank = await this.prisma.bank.create({
-                data: bankDTO
-            });
+            return await this.prisma.$transaction(async () => {
+                const bank = await this.prisma.bank.create({
+                    data: bankDTO
+                });
 
-            return {...bank} as unknown as Bank;
+                return {...bank} as unknown as Bank;
+            });
         } catch (error: unknown) {
             console.error(error);
 
@@ -78,15 +80,28 @@ export class RepositoryBank {
         try {
             this.prisma.$connect();
 
-            const bank = await this.prisma.bank.update({
-                data: bankDTO,
-                where: {id: bankId}
-            }).then(bank => {
-                if (bank) return bank;
-                throw new DatabaseException("error to update bank at database", 404);
-            });
+            return await this.prisma.$transaction(async () => {
+                const bank = await this.prisma.bank.findFirst({
+                    where: {id: bankId}
+                }).then(bank => {
+                    if (bank) return bank;
+                    throw new DatabaseException("bank not found", 404);
+                });
 
-            return {...bank} as unknown as Bank;
+                bank.accountType = bankDTO.accountType;
+                bank.name = bankDTO.name;
+                bank.numbAccount = bankDTO.numbAccount;
+                bank.numbAgency = bankDTO.numbAgency;
+
+                const bankUpdated = await this.prisma.bank.update({
+                    data: bank,
+                    where: {id: bankId}
+                }).catch(error => {
+                    throw new DatabaseException(error.message, 500);
+                });
+
+                return bankUpdated as unknown as Bank;
+            });
         } catch (error: unknown) {
             console.error(error);
 

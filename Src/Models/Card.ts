@@ -10,7 +10,6 @@ export class Card {
     cardLimit: number = 0;
     currentLimit: number = 0;
     balanceValue?: number = 0;
-    reversal?: boolean = false;
     createAt?: Date;
     updateAt?: Date;
 }

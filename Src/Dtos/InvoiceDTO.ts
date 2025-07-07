@@ -3,5 +3,6 @@ export interface InvoiceDTO {
     description?: string;
     quantity: number;
     invoicePaid: number;
+    reversal?: boolean;
     balanceValue: number;
 }

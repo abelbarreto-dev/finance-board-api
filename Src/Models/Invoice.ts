@@ -4,6 +4,7 @@ export class Invoice {
     description?: string;
     quantity: number = 0;
     invoicePaid: number = 0;
+    reversal?: boolean = false;
     balanceValue: number = 0;
     createAt?: Date;
     updateAt?: Date;

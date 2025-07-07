@@ -103,7 +103,6 @@ export class RepositoryCard {
                 card.cardFlag = cardDTO.cardFlag;
                 card.cardLimit = cardDTO.cardLimit;
                 card.currentLimit = cardDTO.currentLimit;
-                card.balanceValue = cardDTO.balanceValue;
 
                 const cardUpdated = await this.prisma.card.update({
                     data: card,

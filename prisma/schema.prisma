@@ -246,7 +246,6 @@ model Card {
   cardFlag     EnumFlag @map("card_flag")
   cardLimit    Decimal  @map("card_limit")
   currentLimit Decimal  @map("current_limit")
-  balanceValue Decimal? @map("balance_value")
 
   invoices Invoice[]
 

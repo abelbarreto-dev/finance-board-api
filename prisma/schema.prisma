@@ -288,6 +288,6 @@ model UserTokens {
   id        Int      @id @default(autoincrement())
   userId    Int      @map("user_id")
   token     String
-  expiresIn DateTime @map("expires_in")
-  createdAt DateTime @map("created_at")
+  expiresIn String   @map("expires_in")
+  createdAt DateTime @default(now()) @map("created_at")
 }

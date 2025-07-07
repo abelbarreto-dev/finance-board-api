@@ -2,6 +2,6 @@ export class UserTokens {
     id: number = 0;
     userId: number = 0;
     token: string = "";
-    expiresIn: Date = new Date();
+    expiresIn: string = "";
     createdAt: Date = new Date();
 }

@@ -247,7 +247,6 @@ model Card {
   cardLimit    Decimal  @map("card_limit")
   currentLimit Decimal  @map("current_limit")
   balanceValue Decimal? @map("balance_value")
-  reversal     Boolean  @default(false)
 
   invoices Invoice[]
 
@@ -266,6 +265,7 @@ model Invoice {
   quantity     Int
   invoicePaid  Int     @map("invoice_paid")
   balanceValue Decimal @map("balance_value")
+  reversal     Boolean @default(false)
 
   operaInvoices OperaInvoice[]
 

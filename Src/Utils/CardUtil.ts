@@ -35,11 +35,5 @@ export class CardUtil {
         BalanceUtil.checkBalance<CardException>(card.cardLimit, except);
         except.message = "invalid card current limit value found, card current limit value must be positive";
         BalanceUtil.checkBalance<CardException>(card.currentLimit, except);
-
-        const balance: any = card.balanceValue;
-        except.message = "invalid card balance value found, card balance value must be positive";
-
-        if (![undefined, null].includes(balance))
-            BalanceUtil.checkBalance<CardException>(card.balanceValue as number, except);
     }
 }

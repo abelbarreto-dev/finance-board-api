@@ -17,6 +17,7 @@ export class ControllerInvoice {
     async saveInvoice(request: Request, response: Response): Promise<Response> {
         try {
             const invoiceDTO = {...request.body} as InvoiceDTO;
+            invoiceDTO.reversal = !!invoiceDTO.reversal;
 
             const invoice = await this.service.saveInvoice(invoiceDTO);
 
@@ -48,6 +49,7 @@ export class ControllerInvoice {
     async updateInvoice(request: Request, response: Response): Promise<Response> {
         try {
             const invoiceDTO = {...request.body} as InvoiceDTO;
+            invoiceDTO.reversal = !!invoiceDTO.reversal;
             const id = request.params.cardId;
             const invoiceId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 

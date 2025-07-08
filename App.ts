@@ -3,6 +3,8 @@ import userRoutes from "@Routes/UserRoutes";
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = process.env.PORT || 8080;
 
 app.use("/api/v1/user", userRoutes);

@@ -34,13 +34,17 @@ prisma/
 Src/
 ├──Controllers/
 ├──Dtos
+├──├──Special/
 ├──Enums/
 ├──Exceptions/
 ├──Models/
+├──├──Special/
 ├──Middlewares/
 ├──Repositories/
+├──├──Session/
 ├──Routes/
 ├──Services/
+├──├──Session
 ├──Utils
 Tests/
 ├──Mocks/

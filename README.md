@@ -6,7 +6,7 @@ The main stack used is TypeScript.
 
 You'll find about 44 routes. [TODO]
 
-For more information, take a look at [Frequent Asks]().
+For more information, take a look at [Frequent Asks](#frequent-asks).
 
 ## How To Run?
 

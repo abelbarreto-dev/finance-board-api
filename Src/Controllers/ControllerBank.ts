@@ -47,10 +47,10 @@ export class ControllerBank {
 
     async getBanks(request: Request, response: Response): Promise<Response> {
         try {
-            const userId = request.params.userId;
-            const id_user = userId.match(/^[0-9]+$/) ? parseInt(userId) : -1;
+            const id = request.params.id;
+            const userId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
-            const banks = await this.service.getBanks(id_user);
+            const banks = await this.service.getBanks(userId);
 
             return await HttpUtil.successResponse(response, banks, 200);
         }

@@ -31,7 +31,7 @@ export class ControllerCard {
 
     async getCardById(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.cardId;
+            const id = request.params.id;
             const cardId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const card = await this.service.getCardById(cardId);
@@ -47,7 +47,7 @@ export class ControllerCard {
 
     async getCards(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.bankId;
+            const id = request.params.id;
             const bankId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const cards = await this.service.getCards(bankId);
@@ -64,7 +64,7 @@ export class ControllerCard {
     async updateCard(request: Request, response: Response): Promise<Response> {
         try {
             const cardDTO = {...request.body} as CardDTO;
-            const id = request.params.cardId;
+            const id = request.params.id;
             const cardId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const card = await this.service.updateCard(cardId, cardDTO);
@@ -80,7 +80,7 @@ export class ControllerCard {
 
     async deleteCard(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.cardId;
+            const id = request.params.id;
             const cardId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const deletedCard = await this.service.deleteCard(cardId);

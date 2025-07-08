@@ -32,7 +32,7 @@ export class ControllerInvoice {
 
     async getInvoices(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.cardId;
+            const id = request.params.id;
             const cardId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const invoices = await this.service.getInvoices(cardId);
@@ -50,7 +50,7 @@ export class ControllerInvoice {
         try {
             const invoiceDTO = {...request.body} as InvoiceDTO;
             invoiceDTO.reversal = !!invoiceDTO.reversal;
-            const id = request.params.cardId;
+            const id = request.params.id;
             const invoiceId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const invoice = await this.service.updateInvoice(invoiceId, invoiceDTO);

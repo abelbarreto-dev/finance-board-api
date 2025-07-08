@@ -31,7 +31,7 @@ export class ControllerPixKey {
 
     async getPixKeys(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.bankId;
+            const id = request.params.id;
             const bankId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const pixKeys = await this.service.getPixKeys(bankId);
@@ -48,7 +48,7 @@ export class ControllerPixKey {
     async updatePixKey(request: Request, response: Response): Promise<Response> {
         try {
             const pixKeyDTO = {...request.body} as PixKeyDTO;
-            const id = request.params.pixKeyId;
+            const id = request.params.id;
             const pixKeyId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const pixKey = await this.service.updatePixKey(pixKeyId, pixKeyDTO);
@@ -64,7 +64,7 @@ export class ControllerPixKey {
 
     async deletePixKey(request: Request, response: Response): Promise<Response> {
         try {
-            const id = request.params.pixKeyId;
+            const id = request.params.id;
             const pixKeyId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
 
             const deletedPixKey = await this.service.deletePixKey(pixKeyId);

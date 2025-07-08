@@ -1,4 +1,4 @@
-export class UserTokens {
+export class UserToken {
     id: number = 0;
     userId: number = 0;
     token: string = "";

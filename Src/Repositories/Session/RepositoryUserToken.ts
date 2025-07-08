@@ -1,6 +1,7 @@
 import {PrismaClient} from "@prisma/client";
 import {UserTokenDTO} from "@Dtos/Special/UserTokenDTO";
 import {UserToken} from "@Models/Special/UserToken";
+import {BaseException} from "@Exceptions/BaseException";
 
 export class RepositoryUserToken {
     private readonly _prisma: PrismaClient;
@@ -66,7 +67,7 @@ export class RepositoryUserToken {
         catch (error: unknown) {
             console.error(error);
 
-            throw new Error("error to delete user token at database");
+            throw new BaseException("failed to logout or user session not found", 404);
         }
         finally {
             this.prisma.$disconnect();

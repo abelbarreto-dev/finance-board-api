@@ -100,11 +100,6 @@ export class ControllerUser {
 
     async logout(request: Request, response: Response): Promise<Response> {
         try {
-            const userDto: User = {...request.body} as User;
-
-            const result = await this.serviceUser.logout(userDto);
-
-            return await HttpUtil.successResponse<User>(response, result, 200);
         }
         catch (error: unknown) {
             console.error(error);

@@ -67,8 +67,4 @@ export class ServiceUser {
     async deactivateUser(id: number): Promise<User> {
         return await this.repository.deactivateUser(id);
     }
-
-    async logout(user: User): Promise<User> {
-        return new User();
-    }
 }

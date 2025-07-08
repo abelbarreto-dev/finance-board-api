@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "App.ts"
+  ],
+  "ext": "ts",
+  "ignore": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "exec": "npx ts-node -r tsconfig-paths/register App.ts"
+}

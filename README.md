@@ -7,6 +7,25 @@ You'll find about 44 routes. [TODO]
 
 The user is *soft-deleted* when you chose that option if logged.
 
+## How To Run?
+
+We've two options:
+1. Using ts-config;
+2. Using Nodemon;
+
+The difference between both is: with nodemon you can restart the application to test responses while the normal
+run require you stop the server and restart again.
+
+### Normal Runner:
+```commandline
+npm run start
+```
+
+### Nodemon Runner:
+```commandline
+npm run dev
+```
+
 ## How To Test?
 * **About Unit Testing**:
 Each feature built at that project has its own unit tests cases;
@@ -30,31 +49,36 @@ Here, I present you our package structure.
 
 ```commandline
 prisma/
-├──migrations/
+├──└──migrations/
+└──└──schema.prisma
 Src/
 ├──Controllers/
 ├──Dtos
-├──├──Special/
+├──└──Special/
 ├──Enums/
 ├──Exceptions/
 ├──Models/
-├──├──Special/
+├──└──Special/
 ├──Middlewares/
 ├──Repositories/
-├──├──Session/
+├──└──Session/
 ├──Routes/
 ├──Services/
-├──├──Session
-├──Utils
+├──└──Session
+└──Utils
 Tests/
 ├──Mocks/
-├──├──Dtos/
-├──├──General/
-├──├──Models/
+├──└──Dtos/
+├──└──General/
+├──└──Models/
 ├──Services/
-├──Utils/
+└──Utils/
 env.example
 .gitignore
+App.ts -----------------> # starts here
+jest.config.ts
+LICENSE
+nodemon.json
 package.json
 README.md
 tsconfig.json

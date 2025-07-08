@@ -3,6 +3,8 @@ import {UserDTO} from "@Dtos/UserDTO";
 import {ServiceUser} from "@Services/ServiceUser";
 import {User} from "@Models/User";
 import {HttpUtil} from "@Utils/HttpUtil";
+import {generateUserToken} from "@Middlewares/UserAuthMiddleware";
+import {UserLoggedDTO} from "@Dtos/Special/UserLoggedDTO";
 
 export class ControllerUser {
     private readonly serviceUser: ServiceUser;
@@ -30,9 +32,16 @@ export class ControllerUser {
         try {
             const userDto: UserDTO = {...request.body} as UserDTO;
 
-            const result = await this.serviceUser.getUserLogin(userDto);
+            const resp = await this.serviceUser.getUserLogin(userDto);
 
-            return await HttpUtil.successResponse<User>(response, result, 200);
+            const token = await generateUserToken(resp);
+
+            const userLogged: UserLoggedDTO = {
+                user: resp,
+                token: token
+            };
+
+            return await HttpUtil.successResponse<UserLoggedDTO>(response, userLogged, 200);
         }
         catch (error: unknown) {
             console.error(error);

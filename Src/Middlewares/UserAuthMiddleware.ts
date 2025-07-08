@@ -2,6 +2,10 @@ import * as process from "node:process";
 import {Request, Response, NextFunction} from "express";
 import jwt, {JwtPayload, SignOptions} from "jsonwebtoken";
 import {BaseException} from "@Exceptions/BaseException";
+import {v4 as UuidV4} from "uuid";
+import {User} from "@Models/User";
+import {ServiceUserToken} from "@Services/Session/ServiceUserToken";
+import {UserTokenDTO} from "@Dtos/Special/UserTokenDTO";
 
 const SECRET_KEY = process.env.SECRET_KEY || "your secret key";
 
@@ -26,29 +30,51 @@ export const userAuthentication = async (
     const token = authHeader && authHeader.split(' ')[1];
 
     if (token == null) return response.sendStatus(401);
+    const serviceToken = new ServiceUserToken();
 
-    jwt.verify(token, SECRET_KEY, (error, user) => {
-        if (error) return response.sendStatus(403);
+    try {
+        const user = jwt.verify(token, SECRET_KEY) as JwtPayload;
 
         request.body = {
             ...request.body,
-            account_id_fk: (user as JwtPayload).account_id
-        }
+            userId: user.userId
+        };
+
+        const tokens = await serviceToken.getUserTokens(user.userId);
+        const foundToken = tokens.find(tokenValue => tokenValue.token === token);
+
+        if (!foundToken) return response.sendStatus(403);
 
         next();
-    });
+
+    } catch (error) {
+        return response.sendStatus(403);
+    }
 };
 
 export const generateUserToken = async (
-    payload: any
+    payload: User
 ): Promise<string> => {
-    const options: SignOptions = {};
+    const expiresIn = process.env.EXPIRES_IN || "0m";
+    await checkInspireIn(expiresIn);
+    const serviceToken = new ServiceUserToken();
 
-    const expireIn = process.env.EXPIRE_IN || "1";
+    const jti = UuidV4();
 
-    await checkInspireIn(expireIn);
+    const options: SignOptions = {
+        expiresIn: expiresIn as StringValue,
+        jwtid: jti
+    };
 
-    options.expiresIn = expireIn as StringValue;
+    const token = jwt.sign(payload, SECRET_KEY, options);
 
-    return jwt.sign(payload, SECRET_KEY, options);
+    const userToken: UserTokenDTO = {
+        userId: payload.id,
+        token: token,
+        expiresIn: expiresIn
+    };
+
+    await serviceToken.saveUserToken(userToken);
+
+    return token;
 };

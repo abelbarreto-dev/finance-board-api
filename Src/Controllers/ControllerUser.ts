@@ -5,6 +5,7 @@ import {User} from "@Models/User";
 import {HttpUtil} from "@Utils/HttpUtil";
 import {generateUserToken} from "@Middlewares/UserAuthMiddleware";
 import {UserLoggedDTO} from "@Dtos/Special/UserLoggedDTO";
+import {ServiceUserToken} from "@Services/Session/ServiceUserToken";
 
 export class ControllerUser {
     private readonly serviceUser: ServiceUser;
@@ -100,6 +101,17 @@ export class ControllerUser {
 
     async logout(request: Request, response: Response): Promise<Response> {
         try {
+            const id = request.params.id;
+            const userId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;
+            const serviceUserToken: ServiceUserToken = new ServiceUserToken();
+
+            await serviceUserToken.logoutAllUserToken(userId);
+
+            type Body = {message: string};
+
+            const respBody: Body = {message: "logout success"};
+
+            return await HttpUtil.successResponse<Body>(response, respBody, 200);
         }
         catch (error: unknown) {
             console.error(error);

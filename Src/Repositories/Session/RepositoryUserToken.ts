@@ -53,7 +53,7 @@ export class RepositoryUserToken {
         }
     }
 
-    async deleteAllUserToken(userId: number): Promise<void> {
+    async logoutAllUserToken(userId: number): Promise<void> {
         try {
             this.prisma.$connect();
 

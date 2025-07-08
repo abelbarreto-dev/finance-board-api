@@ -34,7 +34,7 @@ export class ServiceUserToken {
         return await this.repository.getUserTokens(userId);
     }
 
-    async deleteAllUserToken(userId: number): Promise<void> {
-        return await this.repository.deleteAllUserToken(userId);
+    async logoutAllUserToken(userId: number): Promise<void> {
+        return await this.repository.logoutAllUserToken(userId);
     }
 }

@@ -99,7 +99,7 @@ export class ControllerUser {
         }
     }
 
-    async logout(request: Request, response: Response): Promise<Response> {
+    async logoutAllSessions(request: Request, response: Response): Promise<Response> {
         try {
             const id = request.params.id;
             const userId = id.match(/^[0-9]+$/) ? parseInt(id) : -1;

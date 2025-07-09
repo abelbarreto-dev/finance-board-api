@@ -1,7 +1,7 @@
 import {PrismaClient} from "@prisma/client";
 import {UserTokenDTO} from "@Dtos/Special/UserTokenDTO";
 import {UserToken} from "@Models/Special/UserToken";
-import {BaseException} from "@Exceptions/BaseException";
+import {DatabaseException} from "@Exceptions/DatabaseException";
 
 export class RepositoryUserToken {
     private readonly _prisma: PrismaClient;
@@ -25,7 +25,7 @@ export class RepositoryUserToken {
         catch (error: unknown) {
             console.error(error);
 
-            throw new Error("error to save user token at database");
+            throw new DatabaseException("error to save user token at database", 500);
         }
         finally {
             this.prisma.$disconnect();
@@ -47,7 +47,27 @@ export class RepositoryUserToken {
         catch (error: unknown) {
             console.error(error);
 
-            throw new Error("error to get user token at database");
+            throw new DatabaseException("error to get user token at database", 404);
+        }
+        finally {
+            this.prisma.$disconnect();
+        }
+    }
+
+    async logoutUserByToken(token: string): Promise<void> {
+        try {
+            this.prisma.$connect();
+
+            await this.prisma.$transaction(async () => {
+                await this.prisma.userTokens.deleteMany({
+                    where: {token: token}
+                });
+            });
+        }
+        catch (error: unknown) {
+            console.error(error);
+
+            throw new DatabaseException("failed to logout or user session not found", 404);
         }
         finally {
             this.prisma.$disconnect();
@@ -67,7 +87,7 @@ export class RepositoryUserToken {
         catch (error: unknown) {
             console.error(error);
 
-            throw new BaseException("failed to logout or user session not found", 404);
+            throw new DatabaseException("failed to logout or user session not found", 404);
         }
         finally {
             this.prisma.$disconnect();

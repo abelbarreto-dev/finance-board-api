@@ -25,6 +25,10 @@ userRoutes.post("/deactivate", userAuthentication, async (request: Request, resp
     await controller.deactivateUser(request, response);
 });
 
+userRoutes.post("/logout", userAuthentication, async (request: Request, response: Response) => {
+    await controller.logout(request, response);
+});
+
 userRoutes.post("/logout-all", userAuthentication, async (request: Request, response: Response) => {
     await controller.logoutAllSessions(request, response);
 });

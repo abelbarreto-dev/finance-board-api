@@ -6,6 +6,7 @@ import {HttpUtil} from "@Utils/HttpUtil";
 import {generateUserToken} from "@Middlewares/UserAuthMiddleware";
 import {UserLoggedDTO} from "@Dtos/Special/UserLoggedDTO";
 import {ServiceUserToken} from "@Services/Session/ServiceUserToken";
+import {BodyMessage} from "../Types/BodyMessage";
 
 export class ControllerUser {
     private readonly serviceUser: ServiceUser;
@@ -99,6 +100,26 @@ export class ControllerUser {
         }
     }
 
+    async logout(request: Request, response: Response): Promise<Response> {
+        try {
+            const auth = request.headers["authorization"];
+            const token = (auth && auth.split(" ")[1]) || "";
+
+            const serviceUserToken: ServiceUserToken = new ServiceUserToken();
+
+            await serviceUserToken.logoutByUserToken(token);
+
+            const respBody: BodyMessage = {message: "success to logout"};
+
+            return await HttpUtil.successResponse<BodyMessage>(response, respBody, 200);
+        }
+        catch (error: unknown) {
+            console.error(error);
+
+            return await HttpUtil.exceptionResponse(error, response);
+        }
+    }
+
     async logoutAllSessions(request: Request, response: Response): Promise<Response> {
         try {
             const id = request.params.id;
@@ -107,11 +128,9 @@ export class ControllerUser {
 
             await serviceUserToken.logoutAllUserToken(userId);
 
-            type Body = {message: string};
+            const respBody: BodyMessage = {message: "success to logout all sessions"};
 
-            const respBody: Body = {message: "logout success"};
-
-            return await HttpUtil.successResponse<Body>(response, respBody, 200);
+            return await HttpUtil.successResponse<BodyMessage>(response, respBody, 200);
         }
         catch (error: unknown) {
             console.error(error);

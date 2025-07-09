@@ -34,6 +34,10 @@ export class ServiceUserToken {
         return await this.repository.getUserTokens(userId);
     }
 
+    async logoutByUserToken(token: string): Promise<void> {
+        return await this.repository.logoutUserByToken(token);
+    }
+
     async logoutAllUserToken(userId: number): Promise<void> {
         return await this.repository.logoutAllUserToken(userId);
     }

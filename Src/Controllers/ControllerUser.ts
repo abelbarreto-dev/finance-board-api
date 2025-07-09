@@ -36,10 +36,16 @@ export class ControllerUser {
 
             const resp = await this.serviceUser.getUserLogin(userDto);
 
+            const user: User = {
+                id: resp.id,
+                email: resp.email,
+                username: resp.username
+            } as User;
+
             const token = await generateUserToken(resp);
 
             const userLogged: UserLoggedDTO = {
-                user: resp,
+                user: user,
                 token: token
             };
 

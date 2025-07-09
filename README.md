@@ -55,6 +55,7 @@ Src/
 ├──Routes/
 ├──Services/
 ├──└──Session
+├──Types/
 └──Utils
 Tests/
 ├──Mocks/

@@ -17,11 +17,11 @@ userRoutes.post("/recovery", async (request: Request, response: Response) => {
     await controller.reactiveUser(request, response);
 });
 
-userRoutes.patch("/update/{id}", userAuthentication, async (request: Request, response: Response) => {
+userRoutes.patch("/:id/update", userAuthentication, async (request: Request, response: Response) => {
     await controller.updateUser(request, response);
 });
 
-userRoutes.post("/deactivate", userAuthentication, async (request: Request, response: Response) => {
+userRoutes.post("/:id/deactivate", userAuthentication, async (request: Request, response: Response) => {
     await controller.deactivateUser(request, response);
 });
 
@@ -29,7 +29,7 @@ userRoutes.post("/logout", userAuthentication, async (request: Request, response
     await controller.logout(request, response);
 });
 
-userRoutes.post("/logout-all", userAuthentication, async (request: Request, response: Response) => {
+userRoutes.post("/:id/logout-all", userAuthentication, async (request: Request, response: Response) => {
     await controller.logoutAllSessions(request, response);
 });
 

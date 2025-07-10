@@ -13,7 +13,7 @@ bankRoutes.get("/:id", userAuthentication, async (request: Request, response: Re
     await controller.getBankById(request, response);
 });
 
-bankRoutes.get("/:id/all", userAuthentication, async (request: Request, response: Response) => {
+bankRoutes.get("/user/:id", userAuthentication, async (request: Request, response: Response) => {
     await controller.getBanks(request, response);
 });
 

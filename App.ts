@@ -7,6 +7,11 @@ import invoiceRoutes from "@Routes/InvoiceRoutes";
 import pixKeyRoutes from "@Routes/PixKeyRoutes";
 import moneyBoxRoutes from "@Routes/MoneyBoxRoutes";
 import bankBoxRoutes from "@Routes/BankBoxRoutes";
+import operaMoneyRoutes from "@Routes/OperaMoneyRoutes";
+import operaMoneyBoxRoutes from "@Routes/OperaMoneyBoxRoutes";
+import operaBankBoxRoutes from "@Routes/OperaBankBoxRoutes";
+import operaBankRoutes from "@Routes/OperaBankRoutes";
+import operaInvoiceRoutes from "@Routes/OperaInvoiceRoutes";
 
 const app = express();
 
@@ -22,6 +27,11 @@ app.use("/api/v1/invoice", invoiceRoutes);
 app.use("/api/v1/pix-key", pixKeyRoutes);
 app.use("/api/v1/money-box", moneyBoxRoutes);
 app.use("/api/v1/bank-box", bankBoxRoutes);
+app.use("/api/v1/opera-bank-box", operaBankBoxRoutes);
+app.use("/api/v1/opera-bank", operaBankRoutes);
+app.use("/api/v1/opera-invoice", operaInvoiceRoutes);
+app.use("/api/v1/opera-money-box", operaMoneyBoxRoutes);
+app.use("/api/v1/opera-money", operaMoneyRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

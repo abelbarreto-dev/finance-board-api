@@ -21,17 +21,17 @@ const PORT = process.env.PORT || 8080;
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/bank", bankRoutes);
-app.use("/api/v1/money", moneyRoutes);
 app.use("/api/v1/card", cardRoutes);
 app.use("/api/v1/invoice", invoiceRoutes);
+app.use("/api/v1/money", moneyRoutes);
 app.use("/api/v1/pix-key", pixKeyRoutes);
-app.use("/api/v1/money-box", moneyBoxRoutes);
 app.use("/api/v1/bank-box", bankBoxRoutes);
-app.use("/api/v1/opera-bank-box", operaBankBoxRoutes);
+app.use("/api/v1/money-box", moneyBoxRoutes);
 app.use("/api/v1/opera-bank", operaBankRoutes);
+app.use("/api/v1/opera-bank-box", operaBankBoxRoutes);
 app.use("/api/v1/opera-invoice", operaInvoiceRoutes);
+app.use("/api/v1/opera-money", operaMoneyRoutes);
 app.use("/api/v1/opera-money-box", operaMoneyBoxRoutes);
-app.use("/api/v1/opera-money", operaMoneyRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

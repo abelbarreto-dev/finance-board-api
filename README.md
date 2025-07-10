@@ -4,9 +4,11 @@ Manage your finances by yourself. This project is being built as an API to manag
 
 The main stack used is TypeScript.
 
-You'll find about 44 routes. [TODO]
+The API Routes can be found at: [Routes Session](#finance-board-api-routes)
 
 For more information, take a look at [Frequent Asks](#frequent-asks).
+
+Our license is the MIT, found here: [MIT License](LICENSE).
 
 ## How To Run?
 
@@ -32,6 +34,29 @@ npm run dev
 
 ## About Unit Testing
 * Please take a look at our [testing](./Tests/TESTING.md) document file.
+
+
+## Finance Board API Routes
+
+| **PREFIX**      | **POST**                                                                                                                                                       | **GET**                                          | **PATCH**                  | **DELETE**               | **FINAL** |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|----------------------------|--------------------------|-----------|
+| USER            | `/api/v1/user`<br/>`/api/v1/user/login`<br/>`/api/v1/user/recovery`<br/>`/api/v1/user/{id}/deactivate`<br/>`/api/v1/user/logout`<br/>`/api/v1/user/logout-all` |                                                  | `/api/v1/user/{id}/update` |                          | 7 Routes  |
+| BANK            | `/api/v1/bank`                                                                                                                                                 | `/api/v1/bank/{id}`<br/>`/api/v1/bank/user/{id}` | `/api/v1/bank/{id}`        | `/api/v1/bank/{id}`      | 5 Routes  |
+| CARD            | `/api/v1/card`                                                                                                                                                 | `/api/v1/card/{id}`<br/>`/api/v1/card/bank/{id}` | `/api/v1/card/{id}`        | `/api/v1/card{id}`       | 5 Routes  |
+| INVOICE         | `/api/v1/invoice`                                                                                                                                              | `/api/v1/invoice/card/{id}`                      | `/api/v1/invoice/{id}`     |                          | 3 Routes  |
+| MONEY           | `/api/v1/money`                                                                                                                                                | `/api/v1/money/user/{id}`                        | `/api/v1/money/{id}`       |                          | 3 Routes  |
+| PIX KEY         | `/api/v1/pix-key`                                                                                                                                              | `/api/v1/pix-key/bank/{id}`                      | `/api/v1/pix-key/{id}`     | `/api/v1/pix-key/{id}`   | 4 Routes  |
+| BANK BOX        | `/api/v1/bank-box`                                                                                                                                             | `/api/v1/bank-box/bank/{id}`                     | `/api/v1/bank-box/{id}`    | `/api/v1/bank-box/{id}`  | 4 Routes  |
+| MONEY BOX       | `/api/v1/money-box`                                                                                                                                            | `/api/v1/money-box/money/{id}`                   | `/api/v1/money-box/{id}`   | `/api/v1/money-box/{id}` | 4 Routes  |
+| OPERA BANK      | `/api/v1/opera-bank`                                                                                                                                           | `/api/v1/opera-bank/bank/{id}`                   |                            |                          | 2 Routes  |
+| OPERA BANK BOX  | `/api/v1/opera-bank-box`                                                                                                                                       | `/api/v1/opera-bank-box/bank-box/{id}`           |                            |                          | 2 Routes  |
+| OPERA INVOICE   | `/api/v1/opera-invoice`                                                                                                                                        | `/api/v1/opera-invoice/invoice/{id}`             |                            |                          | 2 Routes  |
+| OPERA MONEY     | `/api/v1/opera-money`                                                                                                                                          | `/api/v1/opera-money/money/{id}`                 |                            |                          | 2 Routes  |
+| OPERA MONEY BOX | `/api/v1/opera-money-box`                                                                                                                                      | `/api/v1/opera-money-box/money-box/{id}`         |                            |                          | 2 Routes  |
+
+> Total Routes: 45
+
+Take look in the details about **Request Bodies** at [Frequent Asks](#frequent-asks).
 
 ## Packages Structure
 
@@ -77,6 +102,25 @@ tsconfig.json
 ```
 
 ## Frequent Asks
+
+<details>
+<summary>Request Bodies</summary>
+<ul>
+<li>User Routes <a href="./REQUESTBODY.md/#user-routes">here</a>.</li>
+<li>PixKey Routes <a href="./REQUESTBODY.md/#pix-key-routes">here</a>.</li>
+<li>Bank Routes <a href="./REQUESTBODY.md/#bank-routes">here</a>.</li>
+<li>Bank Box Routes <a href="./REQUESTBODY.md/#bank-box-routes">here</a>.</li>
+<li>Card Routes <a href="./REQUESTBODY.md/#card-routes">here</a>.</li>
+<li>Invoice Routes <a href="./REQUESTBODY.md/#invoice-routes">here</a>.</li>
+<li>Money Routes <a href="./REQUESTBODY.md/#money-routes">here</a>.</li>
+<li>Money Box Routes <a href="./REQUESTBODY.md/#money-box-routes">here</a>.</li>
+<li>Opera Bank Routes <a href="./REQUESTBODY.md/#opera-bank-routes">here</a>.</li>
+<li>Opera Bank Box Routes <a href="./REQUESTBODY.md/#opera-bank-box-routes">here</a>.</li>
+<li>Opera Invoice Routes <a href="./REQUESTBODY.md/#opera-invoice-routes">here</a>.</li>
+<li>Opera Money Routes <a href="./REQUESTBODY.md/#opera-money-routes">here</a>.</li>
+<li>Opera Money Box Routes <a href="./REQUESTBODY.md/#opera-money-box-routes">here</a>.</li>
+</ul>
+</details>
 
 <details>
 <summary>

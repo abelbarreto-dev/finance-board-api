@@ -6,6 +6,7 @@ import cardRoutes from "@Routes/CardRoutes";
 import invoiceRoutes from "@Routes/InvoiceRoutes";
 import pixKeyRoutes from "@Routes/PixKeyRoutes";
 import moneyBoxRoutes from "@Routes/MoneyBoxRoutes";
+import bankBoxRoutes from "@Routes/BankBoxRoutes";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/v1/card", cardRoutes);
 app.use("/api/v1/invoice", invoiceRoutes);
 app.use("/api/v1/pix-key", pixKeyRoutes);
 app.use("/api/v1/money-box", moneyBoxRoutes);
+app.use("/api/v1/bank-box", bankBoxRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
